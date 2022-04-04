@@ -1,4 +1,3 @@
-const { TestWatcher } = require("jest");
 const QuestionsModule = require("./index");
 
 describe("QuestionModule", () => {
