@@ -7,7 +7,7 @@ const readline = require("readline").createInterface({
 });
 
 readline.question("What file?", async (name) => {
-  const allData = await fs.readFileSync(name, "utf8");
+  const allData = await fs.readFileSync(`./${name}.csv`, "utf8");
   const parsed = parseCSV(allData);
   console.log(parsed);
   readline.close();
