@@ -17,7 +17,7 @@ describe("QuestionModule", () => {
     const yes = true;
 
     // Act
-    const result = question.sendAnswer(yes);
+    const result = question.answer(yes);
 
     // Assert
     expect(result).toBe("Are the battery terminals corroded?");
@@ -27,8 +27,8 @@ describe("QuestionModule", () => {
     const question = QuestionsModule();
     yes = true;
 
-    question.sendAnswer(yes);
-    const result = question.sendAnswer(yes);
+    question.answer(yes);
+    const result = question.answer(yes);
 
     // Assert
     expect(result).toBe("Clean the terminals and try starting again.");
@@ -41,8 +41,8 @@ describe("QuestionModule", () => {
 
     // Act
 
-    question.sendAnswer(yes);
-    const noAnswer = question.sendAnswer(no);
+    question.answer(yes);
+    const noAnswer = question.answer(no);
     // Assert
     expect(noAnswer).toBe("Replace cables and try again.");
   });
@@ -52,7 +52,7 @@ describe("QuestionModule", () => {
     answer = false;
 
     // Act
-    const noAnswer = question.sendAnswer(answer);
+    const noAnswer = question.answer(answer);
 
     // Assert
     expect(noAnswer).toBe("Does the car make a clicking noise?");
@@ -64,8 +64,8 @@ describe("QuestionModule", () => {
     const no = false;
 
     // Act
-    question.sendAnswer(no);
-    result = question.sendAnswer(yes);
+    question.answer(no);
+    result = question.answer(yes);
     // Assert
     expect(result).toBe("Replace the battery.");
   });
@@ -76,8 +76,8 @@ describe("QuestionModule", () => {
     const no = false;
 
     // Act
-    question.sendAnswer(no);
-    result = question.sendAnswer(no);
+    question.answer(no);
+    result = question.answer(no);
     // Assert
     expect(result).toBe("Does the car crank up but fail to start?");
   });
@@ -88,9 +88,9 @@ describe("QuestionModule", () => {
     const no = false;
 
     // Act
-    question.sendAnswer(no);
-    question.sendAnswer(no);
-    result = question.sendAnswer(yes);
+    question.answer(no);
+    question.answer(no);
+    result = question.answer(yes);
     // Assert
     expect(result).toBe("Check spart plug connections.");
   });
@@ -101,9 +101,9 @@ describe("QuestionModule", () => {
     const no = false;
 
     // Act
-    question.sendAnswer(no);
-    question.sendAnswer(no);
-    result = question.sendAnswer(no);
+    question.answer(no);
+    question.answer(no);
+    result = question.answer(no);
     // Assert
     expect(result).toBe("Does the engine start and then die?");
   });
@@ -114,10 +114,10 @@ describe("QuestionModule", () => {
     const no = false;
 
     // Act
-    question.sendAnswer(no);
-    question.sendAnswer(no);
-    question.sendAnswer(no);
-    result = question.sendAnswer(yes);
+    question.answer(no);
+    question.answer(no);
+    question.answer(no);
+    result = question.answer(yes);
     // Assert
     expect(result).toBe("Does your car have fuel injection?");
   });
@@ -128,10 +128,10 @@ describe("QuestionModule", () => {
     const no = false;
 
     // Act
-    question.sendAnswer(no);
-    question.sendAnswer(no);
-    question.sendAnswer(no);
-    result = question.sendAnswer(no);
+    question.answer(no);
+    question.answer(no);
+    question.answer(no);
+    result = question.answer(no);
     // Assert
     expect(result).toBe("Start over");
   });
@@ -142,11 +142,11 @@ describe("QuestionModule", () => {
     const no = false;
 
     // Act
-    question.sendAnswer(no);
-    question.sendAnswer(no);
-    question.sendAnswer(no);
-    question.sendAnswer(yes);
-    result = question.sendAnswer(no);
+    question.answer(no);
+    question.answer(no);
+    question.answer(no);
+    question.answer(yes);
+    result = question.answer(no);
     // Assert
     expect(result).toBe("Check to ensure the choke is opening and closing");
   });
@@ -157,11 +157,11 @@ describe("QuestionModule", () => {
     const no = false;
 
     // Act
-    question.sendAnswer(no);
-    question.sendAnswer(no);
-    question.sendAnswer(no);
-    question.sendAnswer(yes);
-    result = question.sendAnswer(yes);
+    question.answer(no);
+    question.answer(no);
+    question.answer(no);
+    question.answer(yes);
+    result = question.answer(yes);
     // Assert
     expect(result).toBe("Get it in for service.");
   });
