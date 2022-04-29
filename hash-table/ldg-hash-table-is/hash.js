@@ -42,7 +42,10 @@ export default class HashTable {
 
   replace(key, value) {
     const HASH = this.#hashFunction(key);
+    if (this.#table[HASH] === undefined) throw new Error("key does not exist");
+
     const len = this.#table[HASH].length;
+
     if (len === 1 && this.#table[HASH][0] === key) this.#table[HASH][0] = value;
     else {
       for (let arr of this.#table[HASH]) {
@@ -51,3 +54,14 @@ export default class HashTable {
     }
   }
 }
+
+const hash = new HashTable();
+hash.add("mama", 23);
+hash.add("tata", 43);
+hash.add("cip", 22);
+console.log(hash.search("cip"));
+console.log(hash.search("adrian"));
+hash.replace("cip", 83245683745);
+console.log(hash.search("cip"));
+hash.replace("tata", 22);
+console.log(hash.search("tata"));

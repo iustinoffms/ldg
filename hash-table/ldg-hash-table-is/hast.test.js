@@ -44,4 +44,13 @@ describe("HashTable", () => {
 
     expect(result).toBe(44);
   });
+  test("replace method should throw an error if the replacing key does not exist in the table", () => {
+    const hashTable = new HashTable();
+
+    hashTable.add("mama", 11);
+    hashTable.add("diana", 31);
+    hashTable.add("adina", 21);
+
+    expect(() => hashTable.replace("adrian", 55)).toThrow(/key/);
+  });
 });
