@@ -54,14 +54,3 @@ export default class HashTable {
     }
   }
 }
-
-const hash = new HashTable();
-hash.add("mama", 23);
-hash.add("tata", 43);
-hash.add("cip", 22);
-console.log(hash.search("cip"));
-console.log(hash.search("adrian"));
-hash.replace("cip", 83245683745);
-console.log(hash.search("cip"));
-hash.replace("tata", 22);
-console.log(hash.search("tata"));
