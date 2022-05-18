@@ -1,0 +1,48 @@
+.App {
+  margin: 1rem;
+}
+.game {
+  border: 1px solid green;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.body {
+  display: flex;
+  width: 500px;
+  border: 1px solid purple;
+  padding: 0.2rem;
+}
+
+.left-side-body {
+  border: 1px solid red;
+  flex: 1;
+}
+
+.star {
+  display: inline-block;
+  margin: 0 15px;
+}
+
+.star:after {
+  content: "\2605";
+  font-size: 45px;
+}
+.right-side-body {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid blue;
+  flex: 1;
+  justify-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem;
+}
+.number {
+  width: 50px;
+  height: 50px;
+}
+
+.App-link {
+  color: #61dafb;
+}
