@@ -2,47 +2,60 @@
   margin: 1rem;
 }
 .game {
-  border: 1px solid green;
+  border: 3px solid grey;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 1rem;
+  padding: 0.3rem;
 }
 
 .body {
   display: flex;
-  width: 500px;
-  border: 1px solid purple;
-  padding: 0.2rem;
+  width: 550px;
+  border: 2px solid grey;
 }
 
 .left-side-body {
-  border: 1px solid red;
+  border: 2px solid grey;
   flex: 1;
+  font-size: 2rem;
 }
 
 .star {
   display: inline-block;
   margin: 0 15px;
 }
-
+.display-message {
+  padding-top: 1rem;
+}
 .star:after {
   content: "\2605";
-  font-size: 45px;
+  font-size: 55px;
 }
 .right-side-body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border: 1px solid blue;
+  border: 2px solid grey;
   flex: 1;
   justify-items: center;
   gap: 0.3rem;
   padding: 0.2rem;
 }
 .number {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
+  font-weight: bold;
+  font-size: 1rem;
 }
-
+.reset-button {
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+.finished-game {
+  text-align: center;
+}
 .App-link {
   color: #61dafb;
 }

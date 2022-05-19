@@ -1,13 +1,14 @@
 import "./App.css";
 import { useState } from "react";
+import { useEffect } from "react";
 
-const StarsDisplay = (props) => {
-  return utils
+const StarsDisplay = (props) =>
+  utils
     .range(1, props.starsNr)
     .map((starId) => <div key={starId} className="star" />);
-};
-const ButtonsDisplay = (props) => {
-  return utils.range(1, 9).map((number, index) => (
+
+const ButtonsDisplay = (props) =>
+  utils.range(1, 9).map((number, index) => (
     <button
       key={index}
       className="number"
@@ -17,16 +18,59 @@ const ButtonsDisplay = (props) => {
       {number}
     </button>
   ));
+
+const PlayAgain = (props) => {
+  return (
+    <div className="finished-game">
+      <div
+        className="display-message"
+        style={{
+          color: props.gameStatus === "won" ? "green" : "red",
+          fontWeight: "bold",
+        }}
+      >
+        {props.gameStatus === "won" ? "Good job" : "You Lost"}
+      </div>
+
+      <button className="reset-button" onClick={props.resetGame}>
+        {" "}
+        Play Again
+      </button>
+    </div>
+  );
 };
 
 const StarMatch = () => {
   const [stars, setStars] = useState(utils.random(1, 9));
   const [availableNumbers, setAvailableNumbers] = useState(utils.range(1, 9));
   const [candidateNumbers, setCandidateNumbers] = useState([]);
+  const [secondsLeft, setSecondsLeft] = useState(10);
 
-  console.log(candidateNumbers, availableNumbers);
+  useEffect(() => {
+    if (secondsLeft > 0 && availableNumbers.length > 0) {
+      const timer = setTimeout(() => {
+        setSecondsLeft(secondsLeft - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  });
 
   const candidatesAreWrong = utils.sum(candidateNumbers) > stars;
+
+  const gameStatus =
+    availableNumbers.length === 0
+      ? "won"
+      : secondsLeft === 0
+      ? "lost"
+      : "still-playing";
+  console.log(gameStatus);
+
+  const resetGame = () => {
+    setStars(utils.random(1, 9));
+    setAvailableNumbers(utils.range(1, 9));
+    setCandidateNumbers([]);
+    setSecondsLeft(10);
+  };
 
   const buttonStatus = (nr) => {
     if (!availableNumbers.includes(nr)) return "used";
@@ -36,20 +80,31 @@ const StarMatch = () => {
   };
 
   const onNumberClick = (nr, currentStatus) => {
-    if (currentStatus === "used") return;
-    const newCandidateNums =
-      currentStatus === "available"
+    if (currentStatus === "used" || gameStatus !== "still-playing") return;
+
+    const newCandidateNums = determineNewCandidateNums();
+
+    function determineNewCandidateNums() {
+      return currentStatus === "available"
         ? candidateNumbers.concat(nr)
         : candidateNumbers.filter((n) => n !== nr);
+    }
+
     if (utils.sum(newCandidateNums) !== stars) {
       setCandidateNumbers(newCandidateNums);
     } else {
+      determineNewAvailableNums();
+    }
+
+    function determineNewAvailableNums() {
       const newAvailableNums = availableNumbers.filter(
         (n) => !newCandidateNums.includes(n)
       );
+
       setStars(utils.randomSumIn(newAvailableNums, 9));
       setAvailableNumbers(newAvailableNums);
       setCandidateNumbers([]);
+      return newAvailableNums;
     }
   };
 
@@ -60,13 +115,17 @@ const StarMatch = () => {
       </div>
       <div className="body">
         <div className="left-side-body">
-          <StarsDisplay starsNr={stars} />
+          {gameStatus !== "still-playing" ? (
+            <PlayAgain resetGame={resetGame} gameStatus={gameStatus} />
+          ) : (
+            <StarsDisplay starsNr={stars} />
+          )}
         </div>
         <div className="right-side-body">
           <ButtonsDisplay btnStatus={buttonStatus} onClick={onNumberClick} />
         </div>
       </div>
-      <div className="timer">Time remaining:10</div>
+      <div className="timer">Time remaining: {secondsLeft}</div>
     </div>
   );
 };
@@ -78,13 +137,10 @@ const colors = {
   candidate: "deepskyblue",
 };
 const utils = {
-  // Sum an array
   sum: (arr) => arr.reduce((acc, curr) => acc + curr, 0),
 
-  // create an array of numbers between min and max (edges included)
   range: (min, max) => Array.from({ length: max - min + 1 }, (_, i) => min + i),
 
-  // pick a random number between min and max (edges included)
   random: (min, max) => min + Math.floor(Math.random() * (max - min + 1)),
 
   // Given an array of numbers and a max...
