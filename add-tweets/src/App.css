@@ -1,0 +1,23 @@
+.App {
+  font-family: sans-serif;
+  text-align: justify;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  text-align: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+button {
+  max-width: 80px;
+}
+
+.tweet-box {
+  border: 1px solid grey;
+  padding: 1rem;
+  margin: 1rem;
+}
