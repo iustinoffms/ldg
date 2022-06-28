@@ -1,0 +1,16 @@
+{
+  "name": "ldg-simple-math",
+  "version": "1.0.5",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jes": "^0.6.1",
+    "jest": "^27.5.1"
+  }
+}

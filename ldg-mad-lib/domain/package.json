@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "jest": "^27.5.1"
+  },
+  "name": "domain",
+  "version": "1.0.0",
+  "main": "madLib.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

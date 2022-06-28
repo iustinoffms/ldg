@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>SimpleMath</title>
+    <script src="./mathOperations.js"></script>
+    <script src="./display.js"></script>
+  </head>
+  <body>
+    <h2>Welcome to Simple Math</h2>
+    <form>
+      <div>
+        <label for="first-number">What is your first number?</label>
+        <input type="number" name="first-number" id="first-number" required />
+      </div>
+      <div>
+        <label for="second-number">What is your second number?</label>
+        <input type="number" name="second-number" id="second-number" required />
+      </div>
+      <div>
+        <input type="submit" value="Calculate" id="calculate-button" />
+      </div>
+    </form>
+    <div id="display-results">Results</div>
+  </body>
+  <script src="index.js"></script>
+</html>

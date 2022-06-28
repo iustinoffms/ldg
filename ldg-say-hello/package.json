@@ -1,0 +1,23 @@
+{
+  "name": "ldg-say-hello",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iustinoffms/ldg-say-hello.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iustinoffms/ldg-say-hello/issues"
+  },
+  "homepage": "https://github.com/iustinoffms/ldg-say-hello#readme",
+  "dependencies": {
+    "jest": "^27.5.1"
+  }
+}
