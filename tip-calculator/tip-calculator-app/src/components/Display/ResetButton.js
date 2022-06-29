@@ -1,7 +1,11 @@
+import Button from "@mui/material/Button";
+
 const ResetButton = ({ resetAll }) => {
   return (
     <div className="reset-button-container">
-      <button onClick={resetAll}>Reset</button>
+      <Button onClick={resetAll} variant="contained" color="primary">
+        Reset
+      </Button>
     </div>
   );
 };
