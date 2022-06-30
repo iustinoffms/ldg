@@ -1,7 +1,8 @@
-import PeopleInput from "../Functionalities/PeopleInput";
 import { useEffect, useState } from "react";
+import { Box } from "@mui/system";
+import Typography from "@mui/material/Typography";
 
-const DisplayAmounts = ({ billAmount, peopleInput, tipInput }) => {
+const DisplayAmounts = ({ billAmount, peopleInput, tipInput, setReset }) => {
   const [tipAmount, setTipAmount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
 
@@ -10,6 +11,7 @@ const DisplayAmounts = ({ billAmount, peopleInput, tipInput }) => {
       if (!Number(billAmount) || !Number(peopleInput) || !Number(tipInput)) {
         setTipAmount(0);
         setTotalAmount(0);
+
         return;
       }
 
@@ -24,13 +26,57 @@ const DisplayAmounts = ({ billAmount, peopleInput, tipInput }) => {
 
   return (
     <>
-      <div className="tip-amount-person">
-        Tip Amount
-        <span> {tipAmount.toFixed(2)}</span>
-      </div>
-      <div className="total-amount-person">
-        Total <span> {totalAmount.toFixed(2)}</span>
-      </div>
+      <Box sx={{ flex: 3, padding: "2rem 1rem" }}>
+        <Box
+          sx={{
+            fontSize: "1.2rem",
+            margin: "2rem 0rem",
+            fontWeight: 700,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          Tip Amount
+          <Typography
+            component="p"
+            sx={{
+              color: "hsl(172, 67%, 45%)",
+              fontWeight: 800,
+              fontSize: "2.2rem",
+              fontFamily: "Space Mono",
+            }}
+          >
+            {" "}
+            {tipAmount.toFixed(2)}
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            fontSize: "1.2rem",
+            margin: "2rem 0rem",
+            fontWeight: 700,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          Total
+          <Typography
+            component="p"
+            sx={{
+              color: "hsl(172, 67%, 45%)",
+              fontWeight: 800,
+              fontSize: "2.2rem",
+              fontFamily: "Space Mono",
+            }}
+          >
+            {" "}
+            ${totalAmount.toFixed(2)}
+          </Typography>
+        </Box>
+      </Box>
     </>
   );
 };

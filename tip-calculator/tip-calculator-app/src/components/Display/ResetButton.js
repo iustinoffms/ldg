@@ -1,12 +1,24 @@
 import Button from "@mui/material/Button";
+import { Box } from "@mui/system";
 
-const ResetButton = ({ resetAll }) => {
+const ResetButton = ({ resetAll, reset }) => {
   return (
-    <div className="reset-button-container">
-      <Button onClick={resetAll} variant="contained" color="primary">
+    <Box
+      sx={{
+        width: "100%",
+        textAlign: "center",
+      }}
+    >
+      <Button
+        sx={{ width: "100%", height: "90%", padding: "1rem 0rem" }}
+        onClick={resetAll}
+        variant="contained"
+        color="secondary"
+        disabled={reset}
+      >
         Reset
       </Button>
-    </div>
+    </Box>
   );
 };
 
