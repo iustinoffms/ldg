@@ -15,7 +15,6 @@ const Functionalities = ({
     <>
       <Box
         sx={{
-          border: "1px solid red",
           flex: 1,
           padding: "1rem",
           display: "flex",
