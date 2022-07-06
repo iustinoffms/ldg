@@ -5,13 +5,18 @@ import { Container } from "@mui/material";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { ReactComponent as Xlogo } from "../icons/icon-x.svg";
+import { ReactComponent as Ologo } from "../icons/icon-o.svg";
 const Modal = ({
   showModal,
   setShowModal,
   setInitialState,
   winner,
+  setPlayerTurn,
   pickSymbol,
   vsCPU,
+  reset,
+  playerTurn,
 }) => {
   const navigate = useNavigate();
 
@@ -33,14 +38,32 @@ const Modal = ({
             backgroundColor: "#1F3641",
           }}
         >
-          {}
-          <Typography component="p">Winner state here</Typography>
+          <Typography component="p"></Typography>
 
           <Box>
             {winner === "no-winner" ? (
-              <Typography component="h5">ROUND TIED</Typography>
+              <Typography
+                variant="h3"
+                color="secondary"
+                sx={{ fontWeight: 900 }}
+              >
+                ROUND TIED
+              </Typography>
             ) : (
-              <Typography component="h5">{winner} TAKES THE ROUND</Typography>
+              <Typography
+                sx={{
+                  display: "flex",
+                  gap: "1rem",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontWeight: 900,
+                }}
+                variant="h3"
+                color={winner === "x" ? "secondary" : "primary"}
+              >
+                {" "}
+                {winner === "x" ? <Xlogo /> : <Ologo />} TAKES THE ROUND
+              </Typography>
             )}
           </Box>
           <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
@@ -60,6 +83,9 @@ const Modal = ({
               onClick={() => {
                 setShowModal(false);
                 setInitialState(Array(9).fill(null));
+                setPlayerTurn("x");
+
+                // vsCPU ? setPlayerTurn("x") : setPlayerTurn("x");
               }}
             >
               NEXT ROUND

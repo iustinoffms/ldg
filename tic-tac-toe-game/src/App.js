@@ -1,6 +1,6 @@
-import NewGame from "./pages/NewGame";
+import NewGame from "./pages/LandingPage";
 
-import CPUGame from "./pages/CPUGame";
+import CPUGame from "./pages/InGame";
 import { Routes, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";

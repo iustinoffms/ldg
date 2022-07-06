@@ -8,9 +8,10 @@ import { Typography } from "@mui/material";
 import { Paper } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import Modal from "../Modal";
+import Modal from "../components/Modal";
 import styled from "styled-components";
-import { cpuTurn } from "../randomizor";
+import { cpuTurn } from "../utils/randomizor";
+import ResetModal from "../components/ResetModal";
 
 const Game = ({ pickSymbol, vsCPU }) => {
   const [initialState, setInitialState] = useState(Array(9).fill(null));
@@ -20,6 +21,7 @@ const Game = ({ pickSymbol, vsCPU }) => {
   const [owin, setOwin] = useState(0);
   const [ties, setTies] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [showResetModal, setShowResetModal] = useState(false);
 
   function calculateWinner(clickedButtons) {
     const lines = [
@@ -51,12 +53,13 @@ const Game = ({ pickSymbol, vsCPU }) => {
   const winner = calculateWinner(initialState);
 
   function firstPick() {
-    if (symbol === "0" && playerTurn === "x") {
+    if (symbol === "0" && playerTurn === "x" && vsCPU) {
       const copyOfInitialState = [...initialState];
       const cpuFirst = cpuTurn(copyOfInitialState);
       copyOfInitialState[cpuFirst] = "x";
       setInitialState(copyOfInitialState);
       setPlayerTurn("0");
+      console.log("here");
     }
   }
 
@@ -75,7 +78,7 @@ const Game = ({ pickSymbol, vsCPU }) => {
   useEffect(() => {
     countScores();
     firstPick();
-  }, [winner]);
+  }, [winner, playerTurn]);
 
   return (
     <StyledPage>
@@ -134,11 +137,14 @@ const Game = ({ pickSymbol, vsCPU }) => {
           <Button
             sx={{ flex: 1 }}
             variant="contained"
-            onClick={() => setInitialState(Array(9).fill(null))}
+            onClick={() => {
+              setShowResetModal(true);
+            }}
           >
             <RefreshIcon />
           </Button>
         </Box>
+
         <Modal
           showModal={showModal}
           setShowModal={setShowModal}
@@ -146,6 +152,15 @@ const Game = ({ pickSymbol, vsCPU }) => {
           winner={winner}
           pickSymbol={pickSymbol}
           vsCPU={vsCPU}
+          setPlayerTurn={setPlayerTurn}
+          playerTurn={playerTurn}
+        />
+        <ResetModal
+          showResetModal={showResetModal}
+          initialState={initialState}
+          setInitialState={setInitialState}
+          setShowResetModal={setShowResetModal}
+          setPlayerTurn={setPlayerTurn}
         />
         <Box sx={{ marginTop: "1rem" }}>
           <Grid container>
@@ -178,12 +193,16 @@ const Game = ({ pickSymbol, vsCPU }) => {
                     if (vsCPU) {
                       copyInitialState[index] = symbol;
                       const cpuPick = cpuTurn(copyInitialState);
+
                       copyInitialState[cpuPick] = otherSymbol;
+
                       setInitialState(copyInitialState);
                     } else {
-                      copyInitialState[index] = symbol;
                       setSymbol(symbol === "x" ? "0" : "x");
-                      setPlayerTurn(symbol === "x" ? "0" : "x");
+                      setPlayerTurn(playerTurn === "x" ? "0" : "x");
+                      copyInitialState[index] = symbol;
+                      console.log("inside click ", playerTurn);
+
                       setInitialState(copyInitialState);
                     }
                   }}
