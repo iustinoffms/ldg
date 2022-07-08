@@ -1,16 +1,12 @@
-import { Button, Paper, Typography } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import { Container } from "@mui/system";
 import { TextareaAutosize } from "@mui/material";
-import CommentsList from "./CommentsList";
 import { v4 as uuid } from "uuid";
+import { useState } from "react";
 
-function CreateComment({
-  currentUser,
-  initialComments,
-  setInitialComments,
-  textInput,
-  setTextInput,
-}) {
+function CreateComment({ currentUser, initialComments, setInitialComments }) {
+  const [textInput, setTextInput] = useState("");
+
   function getCurrentDate() {
     const today = new Date();
     const day = today.getUTCDate();
