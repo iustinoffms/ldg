@@ -1,24 +1,60 @@
 import { useState } from "react";
 import { useContext } from "react";
 import { SpeakerFilterContext } from "../contexts/SpeakerFilterContext";
+import { SpeakerProvider, SpeakerContext } from "../contexts/SpeakerContext";
+import SpeakerDelete from "./SpeakerDelete";
 
-function Speaker({ speaker, onFavouriteToggle }) {
-  const { id, first, last, sessions } = speaker;
+function Speaker({ speaker, updateRecord, insertRecord, deleteRecord }) {
   const { showSessions } = useContext(SpeakerFilterContext);
+
   return (
-    <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-sm-12 col-xs-12">
-      <div className="card card-height p-4 mt-4">
-        <SpeakerImage id={id} first={first} last={last} />
-        <SpeakerInfo {...speaker} onFavouriteToggle={onFavouriteToggle} />
+    <SpeakerProvider
+      speaker={speaker}
+      updateRecord={updateRecord}
+      insertRecord={insertRecord}
+      deleteRecord={deleteRecord}
+    >
+      <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-sm-12 col-xs-12">
+        <div className="card card-height p-4 mt-4">
+          <SpeakerImage />
+          <SpeakerInfo />
+        </div>
+        {showSessions === true ? <Sessions /> : null}
+        <SpeakerDelete />
       </div>
-      {showSessions === true ? <Sessions sessions={sessions} /> : null}
-    </div>
+    </SpeakerProvider>
   );
 }
+// function ImageWithFallback({ src, ...prost }) {
+//   const [error, setError] = useState(false);
+//   const [imgSrc, setImgSrc] = useState(src);
+//   function onError() {
+//     if (!error) {
+//       setImgSrc("/images/speaker-99999.jpg");
+//       setError(true);
+//     }
+//   }
+//   return <img src={imgSrc} {...props} onError={onError} />;
+// }
+function SpeakerImage() {
+  //clasic way to get the id, first, last props
+  const speakerObj = useContext(SpeakerContext);
+  const { speaker } = speakerObj;
+  const { id, first, last } = speaker;
 
-function SpeakerImage({ id, first, last }) {
+  //nested destructuration
+  // const {
+  //   speaker: { id, first, last },
+  // } = useContext(SpeakerContext);
+
   return (
     <div className="speaker-img d-flex flex-row justify-content-center align-items-center h-300">
+      {/* <ImageWithFallback
+        className="contain-fit"
+        src={`/images/speaker-${id}.jpg`}
+        width="300"
+        alt={`${first} ${last}`}
+      /> */}
       <img
         className="contain-fit"
         src={`/images/speaker-${id}.jpg`}
@@ -29,15 +65,9 @@ function SpeakerImage({ id, first, last }) {
   );
 }
 
-function SpeakerInfo({
-  first,
-  last,
-  bio,
-  company,
-  twitterHandle,
-  favourite,
-  onFavouriteToggle,
-}) {
+function SpeakerInfo() {
+  const { speaker } = useContext(SpeakerContext);
+  const { first, last, bio, company, twitterHandle, favourite } = speaker;
   return (
     <div className="speaker-info">
       <div className="d-flex justify-content-between mb-3">
@@ -45,7 +75,7 @@ function SpeakerInfo({
           {first} {last}
         </h3>
       </div>
-      <Favourite favourite={favourite} onFavouriteToggle={onFavouriteToggle} />
+      <Favourite />
       <div>
         <p className="card-description">{bio}</p>
         <div className="social d-flex flex-row mt-4">
@@ -63,7 +93,8 @@ function SpeakerInfo({
   );
 }
 
-function Favourite({ favourite, onFavouriteToggle }) {
+function Favourite() {
+  const { speaker, updateRecord } = useContext(SpeakerContext);
   const [inTransition, setInTrransition] = useState(false);
 
   function doneCallback() {
@@ -76,12 +107,17 @@ function Favourite({ favourite, onFavouriteToggle }) {
       <span
         onClick={() => {
           setInTrransition(true);
-          return onFavouriteToggle(doneCallback);
+          updateRecord(
+            { ...speaker, favourite: !speaker.favourite },
+            doneCallback
+          );
         }}
       >
         <i
           className={
-            favourite === true ? "fa fa-star orange" : "fa fa-star-o orange"
+            speaker.favourite === true
+              ? "fa fa-star orange"
+              : "fa fa-star-o orange"
           }
         />{" "}
         Favorite{" "}
@@ -93,8 +129,10 @@ function Favourite({ favourite, onFavouriteToggle }) {
   );
 }
 
-function Sessions({ sessions }) {
+function Sessions() {
   const { eventYear } = useContext(SpeakerFilterContext);
+  const { speaker } = useContext(SpeakerContext);
+  const sessions = speaker.sessions;
   return (
     <div className="sessionBox card h-250">
       {sessions

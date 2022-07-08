@@ -31,10 +31,10 @@ function useRequestDelay(delayTime = 1750, initialData = []) {
     delayFunction();
   }, []);
 
-  function updateRecord(recordUpdated, doneCallback) {
+  function updateRecord(record, doneCallback) {
     const originalRecords = [...data];
     const newRecords = data.map((speaker) =>
-      speaker.id === recordUpdated.id ? recordUpdated : speaker
+      speaker.id === record.id ? record : speaker
     );
 
     async function delayFunction() {
@@ -50,8 +50,48 @@ function useRequestDelay(delayTime = 1750, initialData = []) {
     }
     delayFunction();
   }
+  function insertRecord(record, doneCallback) {
+    const originalRecords = [...data];
+    const newRecords = [record, ...data];
 
-  return { data, requestStatus, error, updateRecord };
+    async function delayFunction() {
+      try {
+        setData(newRecords);
+        await delay(delayTime);
+        if (doneCallback) doneCallback();
+      } catch (e) {
+        console.log("error thrown inside delayFunction", error);
+        if (doneCallback) doneCallback();
+        setData(originalRecords);
+      }
+    }
+    delayFunction();
+  }
+  function deleteRecord(record, doneCallback) {
+    const originalRecords = [...data];
+    const newRecords = data.filter((speaker) => speaker.id !== record.id);
+
+    async function delayFunction() {
+      try {
+        setData(newRecords);
+        await delay(delayTime);
+        if (doneCallback) doneCallback();
+      } catch (e) {
+        console.log("error thrown inside delayFunction", error);
+        if (doneCallback) doneCallback();
+        setData(originalRecords);
+      }
+    }
+    delayFunction();
+  }
+  return {
+    data,
+    requestStatus,
+    error,
+    updateRecord,
+    insertRecord,
+    deleteRecord,
+  };
 }
 
 export default useRequestDelay;
