@@ -8,6 +8,8 @@ function CommentsList() {
   const [initialComments, setInitialComments] = useState(data.comments);
   const currentUser = data.currentUser;
 
+  console.log(initialComments);
+
   return (
     <Container>
       {initialComments.map((comment) => (

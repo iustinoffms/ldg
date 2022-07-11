@@ -5,6 +5,9 @@ import { TextareaAutosize } from "@mui/material";
 import { v4 as uuid } from "uuid";
 
 function CreateReply({
+  commentId,
+  initialComments,
+  setInitialComments,
   setCreatedReply,
   createdReply,
   setReplyBtnInsideComment,
@@ -20,7 +23,7 @@ function CreateReply({
 
     return `${day} ${today.toLocaleString("en-EN", { month: "long" })}`;
   }
-
+  console.log(commentId);
   return (
     <Container maxWidth="md">
       <Paper
@@ -46,6 +49,33 @@ function CreateReply({
         <Button
           onClick={() => {
             setReplyBtnInsideComment(!replyBtnInsideComment);
+            const updatedComments = initialComments.map((c) =>
+              c.id === commentId
+                ? {
+                    ...c,
+                    replies: [
+                      ...c.replies,
+                      {
+                        id: uuid(),
+                        content: replyTextInput,
+                        createdAt: getCurrentDate(),
+                        score: 4,
+                        replyingTo: "maxblagun",
+                        user: {
+                          image: {
+                            png: "./images/avatars/image-juliusomo.png",
+                            webp: "./images/avatars/image-juliusomo.webp",
+                          },
+                          username: "juliusomo",
+                        },
+                      },
+                    ],
+                  }
+                : c
+            );
+
+            setInitialComments(updatedComments);
+
             setInitialReplies([
               ...initialReplies,
               {

@@ -44,7 +44,7 @@ function RepliesList({ reply }) {
               <img src={userPhoto} alt="asklnfkasj" />
               <Typography variant="h6">{username}</Typography>
               <Typography>{dateCreated}</Typography>
-              <Button variant="contained">Replay</Button>
+              <Button variant="contained">Reply</Button>
             </Box>
           </Box>
           <Box>

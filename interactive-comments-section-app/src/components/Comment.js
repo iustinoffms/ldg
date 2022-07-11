@@ -5,19 +5,28 @@ import { useState } from "react";
 import RepliesList from "./RepliesList";
 import CreateReply from "./CreateReply";
 
-function Comment({ comment }) {
+function Comment({ comment, initialComments, setInitialComments }) {
   const username = comment.user.username;
   const userPhoto = comment.user.image.png;
   const dateCreated = comment.createdAt;
   const content = comment.content;
 
-  const [replyBtnInsideComment, setReplyBtnInsideComment] = useState(false);
   const [initialReplies, setInitialReplies] = useState(comment.replies);
+  const [replyBtnInsideComment, setReplyBtnInsideComment] = useState(false);
   const [createdReply, setCreatedReply] = useState(false);
 
-  console.log("reply", replyBtnInsideComment);
-  console.log("send", createdReply);
-
+  const increaseScore = () => {
+    const increasedScoreComment = initialComments.map((c) =>
+      c.id === comment.id ? { ...c, score: c.score + 1 } : c
+    );
+    setInitialComments(increasedScoreComment);
+  };
+  const decreaseScore = () => {
+    const decreasedScoreComment = initialComments.map((c) =>
+      c.id === comment.id ? { ...c, score: c.score - 1 } : c
+    );
+    setInitialComments(decreasedScoreComment);
+  };
   return (
     <Container maxWidth="sm">
       <Paper
@@ -39,11 +48,15 @@ function Comment({ comment }) {
             justifyContent: "center",
           }}
         >
-          <Button variant="contained">+</Button>
+          <Button onClick={() => increaseScore()} variant="contained">
+            +
+          </Button>
           <Typography>{comment.score}</Typography>
-          <Button variant="contained">-</Button>
+          <Button onClick={() => decreaseScore()} variant="contained">
+            -
+          </Button>
         </Box>
-        <Paper elevation={0} sx={{}}>
+        <Box elevation={0}>
           <Box
             sx={{
               display: "flex",
@@ -51,7 +64,14 @@ function Comment({ comment }) {
               justifyContent: "space-between",
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1rem",
+                border: "1px solid purple",
+              }}
+            >
               <img src={userPhoto} alt="asklnfkasj" />
               <Typography variant="h6">{username}</Typography>
               <Typography>{dateCreated}</Typography>
@@ -61,14 +81,16 @@ function Comment({ comment }) {
                 }}
                 variant="contained"
               >
-                Replay
+                Reply
               </Button>
             </Box>
           </Box>
-          <Box>
-            <Typography>{content}</Typography>
+          <Box
+            sx={{ display: "flex", border: "1px solid red", padding: "1rem" }}
+          >
+            <Typography sx={{ border: "1px solid blue" }}>{content}</Typography>
           </Box>
-        </Paper>
+        </Box>
       </Paper>
       <Box>
         {" "}
@@ -79,6 +101,9 @@ function Comment({ comment }) {
             replyBtnInsideComment={replyBtnInsideComment}
             initialReplies={initialReplies}
             setInitialReplies={setInitialReplies}
+            setInitialComments={setInitialComments}
+            initialComments={initialComments}
+            commentId={comment.id}
           />
         )}
       </Box>
