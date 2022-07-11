@@ -1,17 +1,19 @@
 import Comment from "./Comment";
 import { Container } from "@mui/system";
-import { useState } from "react";
-import data from "../data.json";
+
 import CreateComment from "./CreateComment";
 
-function CommentsList() {
-  const [initialComments, setInitialComments] = useState(data.comments);
-  const currentUser = data.currentUser;
-
-  console.log(initialComments);
-
+function CommentsList({
+  showModal,
+  setShowModal,
+  initialComments,
+  setInitialComments,
+  currentUser,
+  commentId,
+  setCommentId,
+}) {
   return (
-    <Container>
+    <Container maxWidth="md">
       {initialComments.map((comment) => (
         <Comment
           key={comment.id}
@@ -19,12 +21,17 @@ function CommentsList() {
           initialComments={initialComments}
           setInitialComments={setInitialComments}
           currentUser={currentUser}
+          showModal={showModal}
+          setShowModal={setShowModal}
+          commentId={commentId}
+          setCommentId={setCommentId}
         />
       ))}
       <CreateComment
         initialComments={initialComments}
         setInitialComments={setInitialComments}
         currentUser={currentUser}
+        userImage={currentUser.image}
       />
     </Container>
   );

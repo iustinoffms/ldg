@@ -4,7 +4,7 @@ import { TextareaAutosize } from "@mui/material";
 import { v4 as uuid } from "uuid";
 import { useState } from "react";
 
-function CreateComment({ currentUser, initialComments, setInitialComments }) {
+function CreateComment({ initialComments, setInitialComments, userImage }) {
   const [textInput, setTextInput] = useState("");
 
   function getCurrentDate() {
@@ -26,7 +26,7 @@ function CreateComment({ currentUser, initialComments, setInitialComments }) {
           margin: "1rem 0rem",
         }}
       >
-        <img src={currentUser.image.png} alt="user" />
+        <img src={userImage.png} alt="user" />
         <TextareaAutosize
           onChange={(e) => setTextInput(e.target.value)}
           minRows={10}

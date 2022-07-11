@@ -8,12 +8,9 @@ function CreateReply({
   commentId,
   initialComments,
   setInitialComments,
-  setCreatedReply,
-  createdReply,
   setReplyBtnInsideComment,
   replyBtnInsideComment,
-  setInitialReplies,
-  initialReplies,
+  currentUser,
 }) {
   const [replyTextInput, setReplyTextInput] = useState("");
 
@@ -23,7 +20,7 @@ function CreateReply({
 
     return `${day} ${today.toLocaleString("en-EN", { month: "long" })}`;
   }
-  console.log(commentId);
+
   return (
     <Container maxWidth="md">
       <Paper
@@ -36,7 +33,7 @@ function CreateReply({
           margin: "1rem 0rem",
         }}
       >
-        <img src="#" alt="user" />
+        <img src={currentUser.image.png} alt="user" />
         <TextareaAutosize
           onChange={(e) => setReplyTextInput(e.target.value)}
           minRows={10}
@@ -60,7 +57,7 @@ function CreateReply({
                         content: replyTextInput,
                         createdAt: getCurrentDate(),
                         score: 4,
-                        replyingTo: "maxblagun",
+                        replyingTo: c.user.username,
                         user: {
                           image: {
                             png: "./images/avatars/image-juliusomo.png",
@@ -75,24 +72,6 @@ function CreateReply({
             );
 
             setInitialComments(updatedComments);
-
-            setInitialReplies([
-              ...initialReplies,
-              {
-                id: uuid(),
-                content: replyTextInput,
-                createdAt: getCurrentDate(),
-                score: 4,
-                replyingTo: "maxblagun",
-                user: {
-                  image: {
-                    png: "./images/avatars/image-juliusomo.png",
-                    webp: "./images/avatars/image-juliusomo.webp",
-                  },
-                  username: "juliusomo",
-                },
-              },
-            ]);
           }}
           variant="contained"
         >
