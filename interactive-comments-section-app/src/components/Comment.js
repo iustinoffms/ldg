@@ -13,6 +13,10 @@ function Comment({
   showModal,
   setShowModal,
   setCommentId,
+  deleteReply,
+  setDeleteReply,
+  replyId,
+  setReplyId,
 }) {
   const username = comment.user.username;
   const userPhoto = comment.user.image.png;
@@ -157,7 +161,15 @@ function Comment({
       </Box>
       <Box>
         {" "}
-        <RepliesList comment={comment} />
+        <RepliesList
+          comment={comment}
+          showModal={showModal}
+          setShowModal={setShowModal}
+          deleteReply={deleteReply}
+          setDeleteReply={setDeleteReply}
+          replyId={replyId}
+          setReplyId={setReplyId}
+        />
       </Box>
     </Container>
   );

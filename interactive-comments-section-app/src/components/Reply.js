@@ -2,7 +2,15 @@ import { Button, Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { Container } from "@mui/system";
 
-function Reply({ reply }) {
+function Reply({
+  reply,
+  showModal,
+  setShowModal,
+  deleteReply,
+  setDeleteReply,
+  replyId,
+  setReplyId,
+}) {
   const username = reply.user.username;
   const userPhoto = reply.user.image.png;
   const dateCreated = reply.createdAt;
@@ -53,7 +61,9 @@ function Reply({ reply }) {
                   <Button
                     variant="contained"
                     onClick={() => {
-                      // setShowModal(!showModal);
+                      setShowModal(!showModal);
+                      setDeleteReply(!deleteReply);
+                      setReplyId(reply.id);
                       // setCommentId(comment.id);
                     }}
                   >

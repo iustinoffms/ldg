@@ -8,9 +8,31 @@ function DeleteModal({
   initialComments,
   setInitialComments,
   commentId,
+  deleteReply,
+  setDeleteReply,
+  replyId,
+  setReplyId,
 }) {
   if (!showModal) {
     return;
+  }
+
+  console.log(deleteReply, replyId);
+
+  const deleteComment = () => {
+    const deletedComment = initialComments.filter((c) =>
+      c.id !== commentId ? c : null
+    );
+    setInitialComments(deletedComment);
+  };
+  if (deleteReply === true) {
+    const deleteFromReplies = () => {
+      const x = initialComments.map((comment) =>
+        comment.replies.filter((r) => (r.id !== replyId ? r : null))
+      );
+      console.log(x);
+    };
+    deleteFromReplies();
   }
 
   return (
@@ -36,11 +58,8 @@ function DeleteModal({
         <Button
           variant="contained"
           onClick={() => {
+            deleteComment();
             setShowModal(!showModal);
-            const deletedComment = initialComments.filter((c) =>
-              c.id !== commentId ? c : null
-            );
-            setInitialComments(deletedComment);
           }}
         >
           Yes, delete

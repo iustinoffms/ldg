@@ -7,6 +7,8 @@ import "./style.css";
 function App() {
   const [showModal, setShowModal] = useState(false);
   const [commentId, setCommentId] = useState("");
+  const [deleteReply, setDeleteReply] = useState(false);
+  const [replyId, setReplyId] = useState("");
 
   const [initialComments, setInitialComments] = useState(data.comments);
   const currentUser = data.currentUser;
@@ -23,6 +25,10 @@ function App() {
         currentUser={currentUser}
         commentId={commentId}
         setCommentId={setCommentId}
+        deleteReply={deleteReply}
+        setDeleteReply={setDeleteReply}
+        replyId={replyId}
+        setReplyId={setReplyId}
       />
       <DeleteModal
         showModal={showModal}
@@ -30,6 +36,10 @@ function App() {
         initialComments={initialComments}
         setInitialComments={setInitialComments}
         commentId={commentId}
+        deleteReply={deleteReply}
+        setDeleteReply={setDeleteReply}
+        replyId={replyId}
+        setReplyId={setReplyId}
       />
     </div>
   );

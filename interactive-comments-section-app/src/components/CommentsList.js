@@ -11,6 +11,10 @@ function CommentsList({
   currentUser,
   commentId,
   setCommentId,
+  deleteReply,
+  setDeleteReply,
+  replyId,
+  setReplyId,
 }) {
   return (
     <Container maxWidth="md">
@@ -25,6 +29,10 @@ function CommentsList({
           setShowModal={setShowModal}
           commentId={commentId}
           setCommentId={setCommentId}
+          deleteReply={deleteReply}
+          setDeleteReply={setDeleteReply}
+          replyId={replyId}
+          setReplyId={setReplyId}
         />
       ))}
       <CreateComment
