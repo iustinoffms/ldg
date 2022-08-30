@@ -1,0 +1,19 @@
+.input {
+  border-radius: 10px;
+  color: black;
+  border: 1px solid red;
+  box-shadow: green;
+}
+
+.small {
+  font-size: 16px;
+  color: red;
+}
+.medium {
+  font-size: 26px;
+  color: blue;
+}
+.large {
+  font-size: 36px;
+  color: green;
+}
