@@ -7,7 +7,9 @@ export default {
   args: {
     children: "Button", // set args at component level
   },
-  argTypes: { onClick: { action: "clicked" } },
+  argTypes: {
+    onClick: { action: "clicked" },
+  },
   decorators: [
     (story) => (
       <div
@@ -59,4 +61,11 @@ export const AnotherButton = Template.bind({});
 AnotherButton.args = {
   ...SuccessA.args,
   children: "AnotherButton",
+};
+
+export const RedButton = Template.bind({});
+
+RedButton.args = {
+  variant: "danger",
+  children: "Secondary",
 };
