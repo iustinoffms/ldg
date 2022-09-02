@@ -55,9 +55,7 @@ export const Task = ({
     </Box>
     <IconButton
       p={5}
-      flex="none"
-      aria-label={state === "TASK_PINNED" ? "unpin" : "pin"}
-      variant={state === "TASK_PINNED" ? "unpin" : "pin"}
+      flex="auto"
       icon={<StarIcon />}
       onClick={() => onTogglePinTask(state, id)}
     />
