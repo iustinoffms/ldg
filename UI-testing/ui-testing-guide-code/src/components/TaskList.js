@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { VStack, Skeleton, Flex, Spacer } from '@chakra-ui/react';
-import { CheckIcon, StarIcon } from '@chakra-ui/icons';
-import { Task } from './Task';
-import { EmptyState } from './EmptyState';
+import React from "react";
+import PropTypes from "prop-types";
+import { VStack, Skeleton, Flex, Spacer } from "@chakra-ui/react";
+import { CheckIcon, StarIcon } from "@chakra-ui/icons";
+import { Task } from "./Task";
+import { EmptyState } from "./EmptyState";
 
 const LoadingTask = () => (
   <Flex
     _notLast={{
-      borderBottom: '1px',
-      borderColor: 'gray.200',
+      borderBottom: "1px",
+      borderColor: "gray.200",
     }}
     bg="white"
     alignItems="center"
@@ -45,6 +45,7 @@ export function TaskList({
         <LoadingTask />
         <LoadingTask />
         <LoadingTask />
+        <LoadingTask />
       </VStack>
     );
   }
@@ -61,8 +62,8 @@ export function TaskList({
   }
 
   const tasksInOrder = [
-    ...tasks.filter((t) => t.state === 'TASK_PINNED'),
-    ...tasks.filter((t) => t.state !== 'TASK_PINNED'),
+    ...tasks.filter((t) => t.state === "TASK_PINNED"),
+    ...tasks.filter((t) => t.state !== "TASK_PINNED"),
   ];
 
   return (
