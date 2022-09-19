@@ -3,17 +3,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { store } from "./app/store";
-import { Provider } from "react-redux";
+import data from "./data.json";
 
-import { fetchUsers } from "./features/users/usersSlice";
-store.dispatch(fetchUsers());
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <App data={data} />
   </React.StrictMode>
 );
 

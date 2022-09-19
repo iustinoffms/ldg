@@ -1,0 +1,39 @@
+{
+  "Income": "",
+  "bugets": [
+    {
+      "category": "Needs",
+      "list": [
+        { "list_item": "Mancare", "sum": "900" },
+        { "list_item": "Detergenti", "sum": "150" },
+        { "list_item": "Gaz", "sum": "400" },
+        { "list_item": "Electricitate", "sum": "400" },
+        { "list_item": "Administratie", "sum": "200" },
+        { "list_item": "Thanos", "sum": "250" },
+        { "list_item": "Pablo", "sum": "250" },
+        { "list_item": "Antrenor Daria", "sum": "200" },
+        { "list_item": "Mancare Serviciu", "sum": "200" },
+        { "list_item": "Transport", "sum": "200" },
+        { "list_item": "Internet", "sum": "60" }
+      ]
+    },
+    {
+      "category": "Wants",
+      "list": [
+        { "list_item": "Weekend", "sum": "800" },
+        { "list_item": "Buget Daria", "sum": "300" },
+        { "list_item": "Buget Iustin", "sum": "300" },
+        { "list_item": "Antrenor Daria", "sum": "500" },
+        { "list_item": "Sala Daria", "sum": "140" },
+        { "list_item": "Sala Iustin", "sum": "140" },
+        { "list_item": "Netflix", "sum": "30" },
+        { "list_item": "Spotify", "sum": "30" }
+      ]
+    },
+    {
+      "category": "Debts",
+      "list": [{ "list_item": "Datorii", "sum": "8167" }]
+    },
+    { "category": "Savings", "list": [{ "list_item": "Economii", "sum": "0" }] }
+  ]
+}

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { postAdded } from "./postsSlice";
+import { addNewPost } from "./postsSlice";
 import { selectAllUsers } from "../users/usersSlice";
 
 const AddPostForm = () => {
@@ -11,20 +10,29 @@ const AddPostForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [userId, setUserId] = useState("");
+  const [addRequestStatus, setAddRequestStatus] = useState("idle");
 
   const onTitleChanged = (e) => setTitle(e.target.value);
   const onContentChanged = (e) => setContent(e.target.value);
   const onAuthorChanged = (e) => {
     setUserId(e.target.value);
   };
+  const activeButton =
+    Boolean(title) &&
+    Boolean(content) &&
+    Boolean(userId) &&
+    addRequestStatus === "idle";
 
   const onClick = () => {
-    if (title && content) {
-      //the actual form of the payload object, comes from the prepare callback from slice.
-      dispatch(postAdded(title, content, userId));
-      setTitle("");
-      setContent("");
-      setUserId("");
+    if (activeButton) {
+      try {
+        setAddRequestStatus("pending");
+        dispatch(addNewPost({ title, content, userId })).unwrap();
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setAddRequestStatus("idle");
+      }
     }
   };
 
@@ -34,7 +42,6 @@ const AddPostForm = () => {
     </option>
   ));
 
-  const activeButton = Boolean(title) && Boolean(content) && Boolean(userId);
   return (
     <section>
       <h2>Add a New Post</h2>
