@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import "./style-sessions.css";
 import { Link } from "react-router-dom";
 import { Formik, Field, Form } from "formik";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useMutation } from "@apollo/client";
+
 const SESSIONS_ATTRIBUTES = gql`
   fragment SessionInfo on Session {
     id
@@ -28,29 +29,56 @@ const SESSIONS = gql`
   }
   ${SESSIONS_ATTRIBUTES}
 `;
+const CREATE_SESSION = gql`
+  mutation createSession($session: SessionInput!) {
+    createSession(session: $session) {
+      ...SessionInfo
+    }
+  }
+  ${SESSIONS_ATTRIBUTES}
+`;
+
+const ALL_SESSIONS = gql`
+  query sessions {
+    sessions {
+      ...SessionInfo
+    }
+  }
+  ${SESSIONS_ATTRIBUTES}
+`;
+
 function AllSessionList() {
-  return <SessionItem />;
+  const { loading, error, data } = useQuery(ALL_SESSIONS);
+  console.log(data);
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (error) {
+    return <p>Error loading sessions</p>;
+  }
+  return data.sessions.map((session) => (
+    <SessionItem key={session.id} session={{ ...session }} />
+  ));
 }
 
 function SessionList({ day }) {
+  const isDescription = false;
+  const results = [];
   if (day === "") {
-    day = "Wednesday";
+    day = "Friday";
   }
-  const { loading, error, data } = useQuery(SESSIONS, { variables: { day } });
+  const { loading, error, data } = useQuery(SESSIONS, {
+    variables: { day, isDescription },
+  });
 
   if (loading) {
     return <p>Loading...</p>;
   }
-
   if (error) {
     return <p>Error loading sessions</p>;
   }
-  console.log(data.intermediate);
-  console.log(data.advanced);
 
-  const results = [];
   results.push([...data.intermediate, ...data.advanced]);
-
   return (
     <div>
       {results[0].map((session) => (
@@ -61,7 +89,8 @@ function SessionList({ day }) {
 }
 
 function SessionItem({ session }) {
-  const { id, title, day, room, level, startsAt, speakers } = session;
+  const { id, title, day, room, level, startsAt, description, speakers } =
+    session;
   return (
     <div key={id} className="col-xs-12 col-sm-6" style={{ padding: 5 }}>
       <div className="panel panel-default">
@@ -73,6 +102,7 @@ function SessionItem({ session }) {
           <h5>{`Day: ${day}`}</h5>
           <h5>{`Room Number: ${room}`}</h5>
           <h5>{`Starts at: ${startsAt}`}</h5>
+          <h5>{description && `Description: ${description}`}</h5>
         </div>
         <div className="panel-footer"></div>
         {speakers.map((speaker) => (
@@ -91,10 +121,10 @@ function SessionItem({ session }) {
 }
 
 export function Sessions() {
-  const [day, setDay] = useState("");
+  const [day, setDay] = useState("All");
   return (
     <>
-      <section className="banner">
+      <section className="banner" style={{ border: "1px solid red" }}>
         <div className="container">
           <div className="row" style={{ padding: 10 }}>
             <Link
@@ -134,8 +164,8 @@ export function Sessions() {
               Friday
             </button>
           </div>
-          {day !== "All" && <SessionList day={day} />}
           {day === "All" && <AllSessionList />}
+          {day !== "All" && <SessionList day={day} />}
         </div>
       </section>
     </>
@@ -143,6 +173,31 @@ export function Sessions() {
 }
 
 export function SessionForm() {
+  const updateSessions = (cache, { data }) => {
+    cache.modify({
+      fields: {
+        sessions(existingSessions = []) {
+          const newSession = data.createSession;
+          cache.writeQuery({
+            query: ALL_SESSIONS,
+            data: { newSession, ...existingSessions },
+          });
+        },
+      },
+    });
+  };
+
+  const [create, { called, error }] = useMutation(CREATE_SESSION, {
+    update: updateSessions,
+  });
+
+  if (called) {
+    return <p>Session Submitted</p>;
+  }
+  if (error) {
+    return <p>Session Failed to submit</p>;
+  }
+
   return (
     <div
       style={{
@@ -160,7 +215,9 @@ export function SessionForm() {
           day: "",
           level: "",
         }}
-        onSubmit={() => {}}
+        onSubmit={async (values) => {
+          await create({ variables: { session: values } });
+        }}
       >
         {() => (
           <Form style={{ width: "100%", maxWidth: 500 }}>

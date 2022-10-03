@@ -22,7 +22,7 @@
         }
       ],
       "name": "Jerome Parker",
-      "featured": true
+      "featured": false
     },
     {
       "id": "aa24b5ca-5b96-4657-909e-e5be82ebf891",
@@ -37,7 +37,8 @@
           "name": "GraphQL - The Big Picture"
         }
       ],
-      "name": "West Larson"
+      "name": "West Larson",
+      "featured": true
     },
     {
       "id": "1491c981-bbb2-4db3-b89a-3a7434451fed",
@@ -48,7 +49,8 @@
           "name": "Rapid Cross-Platform AR Development with React Native"
         }
       ],
-      "name": "Xoan Chapman"
+      "name": "Xoan Chapman",
+      "featured": false
     },
     {
       "id": "223d2b9d-a582-4e14-bebb-d636fb030bda",
@@ -59,7 +61,8 @@
           "name": "Getting your head around .NET Standard 2.1"
         }
       ],
-      "name": "Reed Watts"
+      "name": "Reed Watts",
+      "featured": true
     },
     {
       "id": "0a8d8acd-7224-4746-8cb6-5eeee2626bf4",
@@ -70,7 +73,8 @@
           "name": "Building a QA practice from scratch"
         }
       ],
-      "name": "Ripley Vargas"
+      "name": "Ripley Vargas",
+      "featured": false
     },
     {
       "id": "e8eb22dd-d167-4efa-ba0e-905c94b38f9b",
@@ -85,7 +89,8 @@
           "name": "Team Work Makes the Dream Work"
         }
       ],
-      "name": "Constance Jimenez"
+      "name": "Constance Jimenez",
+      "featured": true
     },
     {
       "id": "bc6182e1-400e-41c6-aedc-a4a66c5dc236",
@@ -96,7 +101,8 @@
           "name": "Stack-Agnostic End-to-End Testing with Jest and Puppeteer"
         }
       ],
-      "name": "Travis Oliver"
+      "name": "Travis Oliver",
+      "featured": true
     },
     {
       "id": "67825076-cfd8-40ab-a163-bf9d9cea66bf",
@@ -107,7 +113,8 @@
           "name": "Is This a Button? A Question Your Users Should Never Ask."
         }
       ],
-      "name": "Rebecca Silva"
+      "name": "Rebecca Silva",
+      "featured": true
     },
     {
       "id": "3c774b73-d976-4916-ac8a-fac04a4bc9ca",
@@ -118,7 +125,8 @@
           "name": "Just because you can do something, doesn't mean you should!"
         }
       ],
-      "name": "Edward Brown"
+      "name": "Edward Brown",
+      "featured": true
     },
     {
       "id": "fdf3c776-f100-41f5-bb22-7a1f16710740",
@@ -129,7 +137,8 @@
           "name": "An AI with an Agenda: How Our Cognitive Biases Leak Into Machine Learning"
         }
       ],
-      "name": "Memphis Barnes"
+      "name": "Memphis Barnes",
+      "featured": true
     },
     {
       "id": "49d109f0-32cf-4187-aedc-dcfcf234a92e",
@@ -140,7 +149,8 @@
           "name": "User Experience Pitfalls"
         }
       ],
-      "name": "Greg Pierce"
+      "name": "Greg Pierce",
+      "featured": true
     },
     {
       "id": "66c1e054-83a5-487a-aef3-0d8499f07c6f",
@@ -151,7 +161,8 @@
           "name": "Testing your React Components"
         }
       ],
-      "name": "Shawn Burns"
+      "name": "Shawn Burns",
+      "featured": true
     },
     {
       "id": "70df25ba-f2b7-4b82-83a7-cbb15a8bf614",
@@ -162,7 +173,8 @@
           "name": "I Told You to Stand Still ! (Motion Detection Web App with JavaScript)"
         }
       ],
-      "name": "Sylvia Brown"
+      "name": "Sylvia Brown",
+      "featured": true
     },
     {
       "id": "451fd96d-6170-4173-8fb6-c2d7f918ad30",
@@ -184,7 +196,8 @@
           "name": "15 Ways to Optimize Spring Boot for the Cloud"
         }
       ],
-      "name": "Michele Foster"
+      "name": "Michele Foster",
+      "featured": true
     },
     {
       "id": "b48019cd-1c88-49c6-ba3f-6133bea26b3d",

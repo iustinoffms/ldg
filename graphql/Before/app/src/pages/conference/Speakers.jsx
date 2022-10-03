@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./style-sessions.css";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useMutation } from "@apollo/client";
 import { useParams } from "react-router-dom";
 
 const SPEAKER_ATTRIBUTES = gql`
@@ -11,6 +11,16 @@ const SPEAKER_ATTRIBUTES = gql`
     sessions {
       id
       title
+    }
+    featured
+  }
+`;
+
+const FEATURED_SPEAKER = gql`
+  mutation markFeatured($speakerId: ID!, $featured: Boolean!) {
+    markFeatured(speakerId: $speakerId, featured: $featured) {
+      id
+      featured
     }
   }
 `;
@@ -34,8 +44,7 @@ const SPEAKER_BY_ID = gql`
 
 const SpeakerList = () => {
   const { loading, error, data } = useQuery(SPEAKERS);
-
-  const featured = false;
+  const [markFeatured] = useMutation(FEATURED_SPEAKER);
 
   if (loading) {
     return <p>Loading</p>;
@@ -44,7 +53,7 @@ const SpeakerList = () => {
     return <p>Error displaying the speakers</p>;
   }
 
-  return data.speakers.map(({ id, name, bio, sessions }) => (
+  return data.speakers.map(({ id, name, bio, sessions, featured }) => (
     <div
       key={id}
       className="col-xs-12 col-sm-6 col-md-6"
@@ -68,7 +77,11 @@ const SpeakerList = () => {
             <button
               type="button"
               className="btn btn-default btn-lg"
-              onClick={() => {}}
+              onClick={async () => {
+                await markFeatured({
+                  variables: { speakerId: id, featured: true },
+                });
+              }}
             >
               <i
                 className={`fa ${featured ? "fa-star" : "fa-star-o"}`}
