@@ -1,28 +1,15 @@
-import "./App.css";
-import Income from "./components/Income";
-import { useState } from "react";
+import Income from "./components/Income/Income";
+import GlobalStyle from "./Layout/GlobalStyle";
+import InsertSpendings from "./components/InsertSpendings/InsertSpendings";
+import AllCategories from "./components/BudgetCategories/BudgetCategories";
 
-import calculateEconomies from "./utiles/calculateEconimies";
-
-import GlobalStyle from "./components/Layout/GlobalStyle";
-import AllBugets from "./components/AllBugets";
-
-function App({ data }) {
-  const [currentIncome, setCurrentIncome] = useState(data.income);
-  const [inputValue, setInputValue] = useState(currentIncome);
-  const currentEconomy = calculateEconomies(currentIncome);
+function App() {
   return (
     <>
       <GlobalStyle />
-
-      <Income
-        data={data}
-        currentIncome={currentIncome}
-        setCurrentIncome={setCurrentIncome}
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-      />
-      <AllBugets data={data} />
+      <Income />
+      <InsertSpendings />
+      <AllCategories />
     </>
   );
 }

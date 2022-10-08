@@ -7,12 +7,10 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
 
+
 }
 body {
-    font-family: "Inter", sans-serif;
-    padding: 1rem;
-    border: 1px solid red;
-    height: 100vh;
+
 }
 `;
 

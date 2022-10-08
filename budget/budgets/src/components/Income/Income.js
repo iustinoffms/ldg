@@ -1,7 +1,15 @@
-import React from "react";
+import * as React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { getIncome } from "../../features/incomeSlice";
+import calculateEconomies from "../../utiles/calculateEconimies";
 
-const Income = ({ setCurrentIncome, inputValue, setInputValue }) => {
+const Income = () => {
+  const income = useSelector(getIncome);
+  const [currentIncome, setCurrentIncome] = React.useState(income);
+  const [inputValue, setInputValue] = React.useState(currentIncome);
+  const currentEconomy = calculateEconomies(currentIncome);
+
   const handleChange = (e) => {
     setInputValue(e.target.value);
   };
@@ -32,7 +40,3 @@ const Income = ({ setCurrentIncome, inputValue, setInputValue }) => {
 export default Income;
 
 const Input = styled.input``;
-
-const Container = styled.div`
-  border: 1px solid red;
-`;
