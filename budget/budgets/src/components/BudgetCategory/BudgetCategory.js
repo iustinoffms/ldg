@@ -7,11 +7,14 @@ function BudgetCategory({ budgetCategory }) {
   const budgets = budgetCategory.list;
 
   return (
-    <BudgetCategoryContainer>
-      {budgets.map((budget, i) => (
-        <Budget key={i} budget={budget} />
-      ))}
-    </BudgetCategoryContainer>
+    <>
+      <p>{budgetCategory.category}</p>
+      <BudgetCategoryContainer>
+        {budgets.map((budget, i) => (
+          <Budget key={i} budget={budget} />
+        ))}
+      </BudgetCategoryContainer>
+    </>
   );
 }
 export default BudgetCategory;

@@ -66,6 +66,7 @@ const BudgetContainer = styled.div`
 
 const ItemAndSum = styled.div`
   display: flex;
+  gap: 1rem;
 `;
 
 const Title = styled.h1`

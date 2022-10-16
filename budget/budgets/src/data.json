@@ -32,7 +32,7 @@
     },
     {
       "category": "Debts",
-      "list": [{ "list_item": "Datorii", "sum": "8167" }]
+      "list": [{ "list_item": "Datorii", "sum": "0" }]
     },
     { "category": "Savings", "list": [{ "list_item": "Economii", "sum": "0" }] }
   ]
