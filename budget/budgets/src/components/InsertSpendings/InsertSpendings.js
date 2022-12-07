@@ -18,7 +18,13 @@ const InsertSpendings = () => {
       <select>
         <option>Alege categoria</option>
       </select>
-      <button>Submit</button>
+      <button
+        onClick={() => {
+          console.log(window.scrollY);
+        }}
+      >
+        Submit
+      </button>
       <button>Cancel</button>
     </StyledInsertSpendings>
   );
