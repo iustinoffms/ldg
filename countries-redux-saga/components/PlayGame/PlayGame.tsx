@@ -1,27 +1,33 @@
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCountries, getCountries } from "../../features/countriesSlice";
+import {
+  getCountries,
+  getShortListCountries,
+} from "../../features/countriesSlice";
 
 const PlayGame = () => {
-  const countries = useSelector(selectCountries);
   const dispatch = useDispatch();
-
-  // React.useEffect(() => {
-  //   dispatch(getCountries());
-  // }, [dispatch]);
 
   const router = useRouter();
   return (
-    <div>
+    <div className="flex flex-col">
       <button
         onClick={() => {
           dispatch(getCountries());
-          console.log(countries);
-          // router.push("/in-game");
+          router.push("/in-game");
         }}
       >
         Play game
+      </button>
+
+      <button
+        onClick={() => {
+          dispatch(getShortListCountries());
+          router.push("/in-game");
+        }}
+      >
+        Get Short List Countries
       </button>
     </div>
   );
