@@ -3,41 +3,46 @@ import {
   CallEffect,
   put,
   PutEffect,
-  takeEvery,
-  select,
   SelectEffect,
+  takeEvery,
+  takeLatest,
+  select,
 } from "redux-saga/effects";
 import {
   getCountries,
-  selectCountries,
   setCountries,
-  getShortListCountries,
-  setShortListCountries,
+  getRegionCountries,
+  setRegionCountries,
 } from "./countriesSlice";
 import pickRandomCountries from "../utils/pickRandomCountries";
+import { selectRegion } from "./countriesSlice";
 
-function* workGetCountries(): Generator<CallEffect | PutEffect, void, any> {
-  const countries = yield call(() =>
-    // fetch("https://restcountries.com/v2/region/Asia")
-    fetch("https://restcountries.com/v2/all")
-  );
+function* fetchCountries(): Generator<CallEffect | PutEffect, void, any> {
+  const countries = yield call(() => fetch("https://restcountries.com/v2/all"));
   const allcountries = yield countries.json();
-  yield put(setCountries(allcountries));
+  const tenRandomCountries = yield call(pickRandomCountries, allcountries, 10);
+  yield put(setCountries(tenRandomCountries));
 }
 
-function* pickTenCountries(): Generator<
-  SelectEffect | CallEffect | PutEffect,
+function* fetchRegionCountries(): Generator<
+  CallEffect | PutEffect | SelectEffect,
   void,
   any
 > {
-  const allCountries = yield select(selectCountries);
-  const tenRandomCountries = yield call(pickRandomCountries, allCountries, 10);
-  yield put(setShortListCountries(tenRandomCountries));
+  const region = yield select(selectRegion);
+  console.log(region);
+
+  const countries = yield call(() =>
+    fetch(`https://restcountries.com/v2/region/${region}`)
+  );
+  const allcountries = yield countries.json();
+  const tenRandomCountries = yield call(pickRandomCountries, allcountries, 10);
+  yield put(setRegionCountries(tenRandomCountries));
 }
 
 function* countriesSaga() {
-  yield takeEvery(getCountries, workGetCountries);
-  yield takeEvery(getShortListCountries, pickTenCountries);
+  yield takeEvery(getCountries, fetchCountries);
+  yield takeLatest(getRegionCountries, fetchRegionCountries);
 }
 
 export default countriesSaga;

@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  getRegionCountries,
   getCountries,
-  getShortListCountries,
 } from "../../features/countriesSlice";
 
 const PlayGame = () => {
@@ -20,14 +20,13 @@ const PlayGame = () => {
       >
         Play game
       </button>
-
       <button
         onClick={() => {
-          dispatch(getShortListCountries());
+          dispatch(getRegionCountries("asia"));
           router.push("/in-game");
         }}
       >
-        Get Short List Countries
+        Play Asia game
       </button>
     </div>
   );

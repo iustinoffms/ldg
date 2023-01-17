@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import pickRandomCountries from "../utils/pickRandomCountries";
 
 interface initialStateProps {
   countries: any[];
@@ -9,7 +10,7 @@ type selectCountries = (state: initialStateProps) => void;
 const initialState = {
   countries: [],
   isLoading: false,
-  shortListCountries: [],
+  region: "",
 };
 
 const countriesSlice = createSlice({
@@ -24,11 +25,14 @@ const countriesSlice = createSlice({
       state.countries = payload;
       state.isLoading = false;
     },
-    getShortListCountries: (state) => {
+    getRegionCountries: (state, { payload }) => {
       state.isLoading = true;
+      state.region = payload;
+      console.log("getAsiaReducer");
     },
-    setShortListCountries: (state, { payload }) => {
-      state.shortListCountries = payload;
+    setRegionCountries: (state, { payload }) => {
+      state.countries = payload;
+      state.isLoading = false;
     },
   },
 });
@@ -37,12 +41,10 @@ const countriesSlice = createSlice({
 export const {
   setCountries,
   getCountries,
-  getShortListCountries,
-  setShortListCountries,
+  setRegionCountries,
+  getRegionCountries,
 } = countriesSlice.actions;
 export const selectCountries = (state: any) => state.countries.countries;
-export const selectLoadingState = (state: any) => state.contries?.isLoading;
-export const selectShortListCountries = (state: any) =>
-  state.countries.shortListCountries;
+export const selectRegion = (state: any) => state.countries.region;
 
 export default countriesSlice.reducer;

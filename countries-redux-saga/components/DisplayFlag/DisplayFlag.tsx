@@ -1,16 +1,17 @@
 import * as React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
+  getRegionCountries,
   selectCountries,
-  selectShortListCountries,
 } from "../../features/countriesSlice";
 
 const DisplayFlag = () => {
   const countries = useSelector(selectCountries);
-  const shortListCountries = useSelector(selectShortListCountries);
-  console.log(shortListCountries, "here is the fucking list");
+  const dispatch = useDispatch();
+  console.log(countries);
+
   const isLoading = useSelector((state: any) => state.countries.isLoading);
-  console.log(isLoading);
+
   return (
     <div style={{ border: "1px solid blue" }}>
       <h2>Here are the countries</h2>
