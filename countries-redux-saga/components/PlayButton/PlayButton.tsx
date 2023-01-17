@@ -12,13 +12,13 @@ interface PlayButtonProps {
 
 const PlayButton = (props: PlayButtonProps) => {
   const { region } = props;
-  const dispatch = useDispatch();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const getFromRegionOrAllCountries = region
     ? getRegionCountries(region)
     : getCountries();
-  const regionName = region ? region : "All Countries";
+  const regionName = region ? region : "all countries";
 
   const onClickEventHandler = () => {
     dispatch(getFromRegionOrAllCountries);
@@ -27,7 +27,7 @@ const PlayButton = (props: PlayButtonProps) => {
 
   return (
     <button
-      className="border-2 rounded-lg drop-shadow-2xl border-amber-300 mx-10 p-6 bg-amber-300 hover:bg-teal-600 hover:border-teal-600"
+      className="border-2  rounded-lg drop-shadow-2xl border-amber-300 mx-10 p-6 bg-amber-300 hover:bg-teal-600 hover:border-teal-600"
       value={regionName}
       onClick={onClickEventHandler}
     >

@@ -12,6 +12,7 @@ const initialState = {
   isLoading: false,
   region: "",
   counter: 0,
+  version: 10,
 };
 
 const countriesSlice = createSlice({
@@ -20,7 +21,6 @@ const countriesSlice = createSlice({
   reducers: {
     getCountries: (state) => {
       state.isLoading = true;
-      console.log("getCountiesReducer");
     },
     setCountries: (state, { payload }) => {
       state.countries = payload;
@@ -29,7 +29,6 @@ const countriesSlice = createSlice({
     getRegionCountries: (state, { payload }) => {
       state.isLoading = true;
       state.region = payload;
-      console.log("getAsiaReducer");
     },
     setRegionCountries: (state, { payload }) => {
       state.countries = payload;
@@ -41,9 +40,11 @@ const countriesSlice = createSlice({
         state.counter++;
       }
     },
+    getVersion: (state, { payload }) => {
+      state.version = payload;
+    },
   },
 });
-// export const selectPosts = (state) => state.posts
 
 export const {
   setCountries,
@@ -51,8 +52,10 @@ export const {
   setRegionCountries,
   getRegionCountries,
   increase,
+  getVersion,
 } = countriesSlice.actions;
 export const selectCountries = (state: any) => state.countries.countries;
 export const selectRegion = (state: any) => state.countries.region;
+export const selectVersion = (state: any) => state.countries.version;
 
 export default countriesSlice.reducer;

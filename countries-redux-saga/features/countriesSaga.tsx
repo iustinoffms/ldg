@@ -15,13 +15,25 @@ import {
   setRegionCountries,
 } from "./countriesSlice";
 import pickRandomCountries from "../utils/pickRandomCountries";
-import { selectRegion } from "./countriesSlice";
+import { selectRegion, selectVersion } from "./countriesSlice";
 
-function* fetchCountries(): Generator<CallEffect | PutEffect, void, any> {
+function* fetchCountries(): Generator<
+  CallEffect | PutEffect | SelectEffect,
+  void,
+  any
+> {
+  const version = yield select(selectVersion);
+
   const countries = yield call(() => fetch("https://restcountries.com/v2/all"));
   const allcountries = yield countries.json();
-  const tenRandomCountries = yield call(pickRandomCountries, allcountries, 10);
-  yield put(setCountries(tenRandomCountries));
+
+  const versionRandomCountries = yield call(
+    pickRandomCountries,
+    allcountries,
+    version
+  );
+
+  yield put(setCountries(versionRandomCountries));
 }
 
 function* fetchRegionCountries(): Generator<
@@ -29,15 +41,20 @@ function* fetchRegionCountries(): Generator<
   void,
   any
 > {
+  const version = yield select(selectVersion);
   const region = yield select(selectRegion);
-  console.log(region);
 
   const countries = yield call(() =>
     fetch(`https://restcountries.com/v2/region/${region}`)
   );
   const allcountries = yield countries.json();
-  const tenRandomCountries = yield call(pickRandomCountries, allcountries, 10);
-  yield put(setRegionCountries(tenRandomCountries));
+
+  const versionRandomCountries = yield call(
+    pickRandomCountries,
+    allcountries,
+    version
+  );
+  yield put(setRegionCountries(versionRandomCountries));
 }
 
 function* countriesSaga() {

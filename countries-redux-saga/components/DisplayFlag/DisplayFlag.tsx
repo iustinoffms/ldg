@@ -5,12 +5,10 @@ import { selectCountries, increase } from "../../features/countriesSlice";
 const DisplayFlag = () => {
   const countries = useSelector(selectCountries);
   const counter = useSelector((state: any) => state.countries.counter);
-  console.log(countries.length);
-  console.log(counter);
   const dispatch = useDispatch();
   console.log(countries);
 
-  const onClick = () => {
+  const increaseCounter = () => {
     dispatch(increase());
   };
 
@@ -24,10 +22,10 @@ const DisplayFlag = () => {
         <div className="">
           <img src={countries[counter].flag} alt="flag" />
         </div>
-        <button>{countries[counter].name}</button>
-        <button onClick={onClick} disabled={isDisabled}>
+        <button onClick={increaseCounter} disabled={isDisabled}>
           Next Flag
         </button>
+        <button>{countries[counter].name}</button>
       </div>
     </>
   );
