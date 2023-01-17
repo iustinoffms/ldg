@@ -1,29 +1,35 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getRegionCountries,
-  selectCountries,
-} from "../../features/countriesSlice";
+import { selectCountries, increase } from "../../features/countriesSlice";
 
 const DisplayFlag = () => {
   const countries = useSelector(selectCountries);
+  const counter = useSelector((state: any) => state.countries.counter);
+  console.log(countries.length);
+  console.log(counter);
   const dispatch = useDispatch();
   console.log(countries);
 
-  const isLoading = useSelector((state: any) => state.countries.isLoading);
+  const onClick = () => {
+    dispatch(increase());
+  };
 
+  const isDisabled = counter === countries.length - 1;
+  const isLoading = useSelector((state: any) => state.countries.isLoading);
   return (
-    <div style={{ border: "1px solid blue" }}>
-      <h2>Here are the countries</h2>
-      <div>
-        {countries.map((country: any) => (
-          <div key={country.name}>
-            <p>{country.name}</p>
-            <img src={country.flag} alt="flag" />
-          </div>
-        ))}
+    <>
+      <div style={{ border: "1px solid blue" }}>
+        <h2>What country is this ?</h2>
+
+        <div className="">
+          <img src={countries[counter].flag} alt="flag" />
+        </div>
+        <button>{countries[counter].name}</button>
+        <button onClick={onClick} disabled={isDisabled}>
+          Next Flag
+        </button>
       </div>
-    </div>
+    </>
   );
 };
 

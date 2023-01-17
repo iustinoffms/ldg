@@ -11,6 +11,7 @@ const initialState = {
   countries: [],
   isLoading: false,
   region: "",
+  counter: 0,
 };
 
 const countriesSlice = createSlice({
@@ -34,6 +35,12 @@ const countriesSlice = createSlice({
       state.countries = payload;
       state.isLoading = false;
     },
+
+    increase: (state) => {
+      if (state.counter < state.countries.length) {
+        state.counter++;
+      }
+    },
   },
 });
 // export const selectPosts = (state) => state.posts
@@ -43,6 +50,7 @@ export const {
   getCountries,
   setRegionCountries,
   getRegionCountries,
+  increase,
 } = countriesSlice.actions;
 export const selectCountries = (state: any) => state.countries.countries;
 export const selectRegion = (state: any) => state.countries.region;
