@@ -18,6 +18,7 @@ const PlayButton = (props: PlayButtonProps) => {
   const getFromRegionOrAllCountries = region
     ? getRegionCountries(region)
     : getCountries();
+
   const regionName = region ? region : "all countries";
 
   const onClickEventHandler = () => {

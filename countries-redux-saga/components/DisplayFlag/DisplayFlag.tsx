@@ -17,7 +17,9 @@ const DisplayFlag = () => {
   return (
     <>
       <div style={{ border: "1px solid blue" }}>
-        <h2>What country is this ?</h2>
+        <h2 className="text-5xl text-center py-10 text-amber-200 font-bold text-opacity-70">
+          What country is this ?
+        </h2>
 
         <div className="">
           <img src={countries[counter].flag} alt="flag" />

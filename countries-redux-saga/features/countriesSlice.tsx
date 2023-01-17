@@ -4,8 +4,11 @@ import pickRandomCountries from "../utils/pickRandomCountries";
 interface initialStateProps {
   countries: any[];
   isLoading: boolean;
+  region: string;
+  counter: number;
+  version: number;
+  score: number;
 }
-type selectCountries = (state: initialStateProps) => void;
 
 const initialState = {
   countries: [],
@@ -13,6 +16,7 @@ const initialState = {
   region: "",
   counter: 0,
   version: 10,
+  score: 0,
 };
 
 const countriesSlice = createSlice({
