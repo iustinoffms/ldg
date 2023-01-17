@@ -4,9 +4,15 @@ import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   return (
-    <div className={styles["container"]}>
+    <>
+      <div className="border-solid border-2 border-emerald-400 py-12">
+        <h1 className="text-5xl text-center  text-amber-200 font-bold text-opacity-70">
+          Welcome to Around the World Game!
+        </h1>
+      </div>
+
       <PlayGame />
-    </div>
+    </>
   );
 };
 
