@@ -32,3 +32,21 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## la reincararea paginii de in game, se face request la region, nu gaseste region, deci crapa server-ul
+
+## trebuie adaugata functionalitatea de try catch pe region saga
+
+## trebuie aduse 20 de tari pentru versiunea Oceania - aceasta are doar 10 tari
+
+## trebuie regandita functia de random de aducere a tarilor; uneori aduce undefined
+
+## trebuie facuta o schema de randomizare a tarilor din array ul cu tari corecte si cel cu tari incorecte si apoi trimise catre buntoane
+
+## trebuie rezolvata problema regiunii pe varianta cu toate tarile
+
+## trebuie implementat timpul
+
+## trebuie scoasa optiunea de a alege o varianta de 10 20 sau 30
+
+## trebuie introdus buton de HINT

@@ -1,9 +1,9 @@
 import * as React from "react";
 
 import { useDispatch } from "react-redux";
-import { getVersion } from "../../features/countriesSlice";
+import { setVersion } from "../../features/countriesSlice";
 interface VersionButtonProps {
-  version: string;
+  version: number;
 }
 const VersionButton = (props: VersionButtonProps) => {
   //improvements needed over here
@@ -12,7 +12,7 @@ const VersionButton = (props: VersionButtonProps) => {
   const { version } = props;
   const dispatch = useDispatch();
   const onVersionSelect = (e: any) => {
-    dispatch(getVersion(Number(e.target.value)));
+    dispatch(setVersion(e.target.value));
     //improvements needed over here
     setBgColor("blue");
   };
