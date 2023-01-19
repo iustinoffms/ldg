@@ -1,10 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getRegionCountries,
-  getCountries,
-} from "../../features/countriesSlice";
-import { setRegion } from "../../features/countriesSlice";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { setRegion } from "../../features/countriesSlice";
 
 interface PlayButtonProps {
   region?: string;
@@ -16,13 +12,9 @@ const PlayButton = (props: PlayButtonProps) => {
   const dispatch = useDispatch();
 
   const onClickEventHandler = () => {
-    dispatch(setRegion(region));
-    push("in-game");
+    // dispatch(setRegion(region));
+    push(`/in-game?region=${region}`);
   };
-
-  // const getFromRegionOrAllCountries = region
-  //   ? getRegionCountries(region)
-  //   : getCountries();
 
   return (
     <button

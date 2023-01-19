@@ -8,17 +8,28 @@ import {
   takeLatest,
   select,
 } from "redux-saga/effects";
+import axios from "axios";
 import {
-  getCountries,
-  setCountries,
-  getCountriesError,
+  getCountriesRequest,
+  getCountriesSuccess,
+  getCountriesFailure,
+  getRegionCountriesError,
   getRegionCountries,
   setRegionCountries,
   setOptionOneCountries,
   setOptionTwoCountries,
+  getOceaniaCountries,
+  setOceaniaCountries,
 } from "./countriesSlice";
 import pickRandomCountries from "../utils/pickRandomCountries";
 import { selectRegion, selectVersion } from "./countriesSlice";
+import { Regions } from "../components/PlayGame/PlayGame";
+
+function fetchCountriesApi() {
+  return axios
+    .get("https://restcountries.com/v2/all")
+    .then(({ data }) => ({ countries: data }));
+}
 
 function* fetchCountries(): Generator<
   CallEffect | PutEffect | SelectEffect,
@@ -26,9 +37,40 @@ function* fetchCountries(): Generator<
   any
 > {
   const version = yield select(selectVersion);
+
+  try {
+    const { countries } = yield call(fetchCountriesApi);
+
+    const versionRandomCountries = yield call(
+      pickRandomCountries,
+      countries,
+      version + 20
+    );
+
+    yield put(
+      getCountriesSuccess({
+        countries: versionRandomCountries.slice(0, 10),
+        optionOneCountries: versionRandomCountries.slice(10, 20),
+        optionTwoCountries: versionRandomCountries.slice(20, 30),
+      })
+    );
+  } catch (error: any) {
+    yield put(getCountriesFailure(error.message));
+  }
+}
+
+function* fetchRegionCountries({
+  payload,
+}: any): Generator<CallEffect | PutEffect | SelectEffect, void, any> {
+  const version = yield select(selectVersion);
+
+  if (payload === Regions.OCEANIA || payload === Regions.ALL_COUNTRIES) {
+    return;
+  }
+
   try {
     const countries = yield call(() =>
-      fetch("https://restcountries.com/v2/all")
+      fetch(`https://restcountries.com/v2/region/${payload}`)
     );
     const allcountries = yield countries.json();
 
@@ -37,39 +79,48 @@ function* fetchCountries(): Generator<
       allcountries,
       version + 20
     );
-
-    yield put(setCountries(versionRandomCountries.slice(0, 10)));
+    yield put(setRegionCountries(versionRandomCountries.slice(0, 10)));
     yield put(setOptionOneCountries(versionRandomCountries.slice(10, 20)));
     yield put(setOptionTwoCountries(versionRandomCountries.slice(20, 30)));
-  } catch (err: any) {
-    yield put(getCountriesError(err));
+  } catch (err) {
+    yield put(getRegionCountriesError(err));
   }
 }
 
-function* fetchRegionCountries(): Generator<
+function* fetchOceaniaCountries(): Generator<
   CallEffect | PutEffect | SelectEffect,
   void,
   any
 > {
   const version = yield select(selectVersion);
-  const region = yield select(selectRegion);
 
-  const countries = yield call(() =>
-    fetch(`https://restcountries.com/v2/region/${region}`)
-  );
-  const allcountries = yield countries.json();
+  try {
+    const oceaniaCountries = yield call(() =>
+      fetch(`https://restcountries.com/v2/region/Oceania`)
+    );
+    const americasCountries = yield call(() =>
+      fetch(`https://restcountries.com/v2/region/Americas`)
+    );
+    const allOceaniaCountries = yield oceaniaCountries.json();
+    const allAmericasCountries = yield americasCountries.json();
+    const versionRandomCountries = yield call(
+      pickRandomCountries,
+      allOceaniaCountries,
+      version
+    );
 
-  const versionRandomCountries = yield call(
-    pickRandomCountries,
-    allcountries,
-    version
-  );
-  yield put(setRegionCountries(versionRandomCountries));
+    yield put(setOceaniaCountries(versionRandomCountries));
+    yield put(setOptionOneCountries(allAmericasCountries.slice(0, 10)));
+    yield put(setOptionTwoCountries(allAmericasCountries.slice(10, 20)));
+  } catch (err) {
+    return;
+  }
 }
 
 function* countriesSaga() {
-  yield takeEvery(getCountries, fetchCountries);
+  yield takeLatest(getCountriesRequest, fetchCountries);
   yield takeLatest(getRegionCountries, fetchRegionCountries);
+  yield takeLatest(getOceaniaCountries, fetchOceaniaCountries);
 }
 
 export default countriesSaga;

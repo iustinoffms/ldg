@@ -68,3 +68,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## 20 puncte raspuns corect in primele 5 secunde
 
 ## on the responses answer the last country is not inserted
+
+// toate butoanele de aceeasi dimensiune si forma
+// alta culoare la bg - un gradient
+//scos de peste tot boarder
+
+//font roboto
+//butoanele intr un max-width
+//shadow pe butoane
+
+// tailwind mobile first

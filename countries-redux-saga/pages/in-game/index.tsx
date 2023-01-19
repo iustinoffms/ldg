@@ -4,42 +4,47 @@ import { useDispatch, useSelector } from "react-redux";
 
 import DisplayFlag from "../../components/DisplayFlag/DisplayFlag";
 import {
-  getCountries,
+  getCountriesRequest,
+  getOceaniaCountries,
   getRegionCountries,
   selectCountries,
   selectRegion,
+  selectRequestStatus,
 } from "../../features/countriesSlice";
 import { Regions } from "../../components/PlayGame/PlayGame";
 
 const InGame = () => {
   const countries = useSelector(selectCountries);
-  const region = useSelector(selectRegion);
-  const isLoading = useSelector((state: any) => state.countries.isLoading);
+  const { isLoading, error } = useSelector(selectRequestStatus);
   const dispatch = useDispatch();
-  const { push } = useRouter();
+  const { push, query } = useRouter();
+  const region = query.region as string;
 
-  console.log("region in-game", region);
+  const getTheList = React.useCallback(
+    (region: string) => {
+      if (region === Regions.ALL_COUNTRIES) {
+        dispatch(getCountriesRequest());
 
-  // const getFromRegionOrAllCountries = region
-  //   ? getRegionCountries(region)
-  //   : getCountries();
-
-  // React.useEffect(() => {
-  //   if (countries.length === 0) {
-  //     push("/");
-  //   }
-  // }, [countries.length, push]);
+        return;
+      }
+      if (region === Regions.OCEANIA) {
+        dispatch(getOceaniaCountries());
+      } else {
+        dispatch(getRegionCountries(region));
+      }
+    },
+    [dispatch]
+  );
 
   React.useEffect(() => {
-    if (region === Regions.ALL_COUNTRIES) {
-      dispatch(getCountries());
-    } else {
-      dispatch(getRegionCountries());
-    }
-  }, [dispatch, Regions.ALL_COUNTRIES]);
-  if (countries.length === 0) return null;
+    if (!region) return;
+    getTheList(region);
+  }, [region, getTheList]);
 
-  return isLoading ? <div>Loading</div> : <DisplayFlag />;
+  if (isLoading) return <div>Loading</div>;
+  if (error) return <div>{error}</div>;
+
+  return <DisplayFlag />;
 };
 
 export default InGame;

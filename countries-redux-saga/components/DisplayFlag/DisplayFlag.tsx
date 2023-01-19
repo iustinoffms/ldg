@@ -15,18 +15,21 @@ const DisplayFlag = () => {
   const optionTwoCountries = useSelector(selectOptionTwoCountries);
   const counter = useSelector((state: any) => state.countries.counter);
   const answers = useSelector(selectAnswers);
+  const isLoading = useSelector((state: any) => state.countries.isLoading);
   const dispatch = useDispatch();
-  console.log(countries);
-  console.log(answers);
 
-  const increaseCounter = (e: any) => {
-    dispatch(increase());
+  const increaseStopCondition = counter === countries.length - 1;
+  const disableButtons = answers.length === countries.length;
 
+  const answerAndNextFlag = (e: any) => {
+    if (!increaseStopCondition) {
+      dispatch(increase());
+    }
     dispatch(addAnswer(e.target.value));
   };
 
-  const isDisabled = counter === countries.length - 1;
-  const isLoading = useSelector((state: any) => state.countries.isLoading);
+  if (countries.length === 0) return null;
+
   return (
     <>
       <div className="" style={{ border: "10px solid blue" }}>
@@ -54,24 +57,24 @@ const DisplayFlag = () => {
           <button
             value={countries[counter].name}
             className="border-2 w-2/6 p-4 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
-            onClick={increaseCounter}
-            disabled={isDisabled}
+            onClick={answerAndNextFlag}
+            disabled={disableButtons}
           >
             {countries[counter].name}
           </button>
           <button
             value={optionOneCountries[counter].name}
             className="border-2 p-4  w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
-            onClick={increaseCounter}
-            disabled={isDisabled}
+            onClick={answerAndNextFlag}
+            disabled={disableButtons}
           >
             {optionOneCountries[counter].name}
           </button>
           <button
             value={optionTwoCountries[counter].name}
             className="border-2 p-4 w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
-            onClick={increaseCounter}
-            disabled={isDisabled}
+            onClick={answerAndNextFlag}
+            disabled={disableButtons}
           >
             {optionTwoCountries[counter].name}
           </button>
