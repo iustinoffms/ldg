@@ -78,3 +78,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 //shadow pe butoane
 
 // tailwind mobile first
+
+//use flex order to randomize buttons
+
+//sagas delay

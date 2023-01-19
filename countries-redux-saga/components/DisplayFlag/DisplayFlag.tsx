@@ -64,7 +64,7 @@ const DisplayFlag = () => {
           </button>
           <button
             value={optionOneCountries[counter].name}
-            className="border-2 p-4  w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
+            className="border-2 p-4 order-2  w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
             onClick={answerAndNextFlag}
             disabled={disableButtons}
           >

@@ -7,6 +7,7 @@ import {
   takeEvery,
   takeLatest,
   select,
+  delay,
 } from "redux-saga/effects";
 import axios from "axios";
 import {
@@ -39,6 +40,7 @@ function* fetchCountries(): Generator<
   const version = yield select(selectVersion);
 
   try {
+    yield delay(4000);
     const { countries } = yield call(fetchCountriesApi);
 
     const versionRandomCountries = yield call(
