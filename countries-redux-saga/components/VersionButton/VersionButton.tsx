@@ -1,28 +1,31 @@
 import * as React from "react";
-
 import { useDispatch } from "react-redux";
+
 import { setVersion } from "../../features/countriesSlice";
+import styles from "./VersionButton.module.css";
 interface VersionButtonProps {
   version: number;
+  disabled?: boolean;
 }
 const VersionButton = (props: VersionButtonProps) => {
   //improvements needed over here
-  const [bgColor, setBgColor] = React.useState<any>("");
+  const [bgColor, setBgColor] = React.useState<any>("version-button");
 
-  const { version } = props;
+  const { version, disabled } = props;
   const dispatch = useDispatch();
-  const onVersionSelect = (e: any) => {
-    dispatch(setVersion(e.target.value));
-    //improvements needed over here
-    setBgColor("blue");
+  const onVersionSelect = () => {
+    dispatch(setVersion(Number(version)));
+    setBgColor("selected-background-color");
   };
+  const isDisabled = disabled ? disabled : false;
+  const className = isDisabled ? styles["is-disabled"] : styles[`${bgColor}`];
 
   return (
     <button
-      className="border-2 p-4 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
-      style={{ background: bgColor }}
+      className={className}
       value={version}
       onClick={onVersionSelect}
+      disabled={isDisabled}
     >
       Play {version} countries version
     </button>

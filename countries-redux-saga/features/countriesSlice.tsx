@@ -64,6 +64,7 @@ const countriesSlice = createSlice({
     },
     setVersion: (state, { payload }) => {
       state.version = payload;
+      console.log("the version is set:", state.version);
     },
     addAnswer: (state, { payload }) => {
       state.answers.push(payload);

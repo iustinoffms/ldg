@@ -21,9 +21,9 @@ const PlayGame = () => {
   return (
     <>
       <div className="flex justify-around mt-20 ">
-        <VersionButton version={GameVersion.TEN_COUNTRIES} />
-        <VersionButton version={GameVersion.TWENTY_COUNTRIES} />
-        <VersionButton version={GameVersion.THIRTY_COUNTRIES} />
+        <VersionButton version={GameVersion.TEN_COUNTRIES} disabled={false} />
+        <VersionButton version={GameVersion.TWENTY_COUNTRIES} disabled={true} />
+        <VersionButton version={GameVersion.THIRTY_COUNTRIES} disabled={true} />
       </div>
       <div className="grid gap-20 grid-cols-3 grid-rows-2 mt-20">
         <PlayButton region={Regions.ALL_COUNTRIES} />

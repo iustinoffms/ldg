@@ -50,3 +50,21 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## trebuie scoasa optiunea de a alege o varianta de 10 20 sau 30
 
 ## trebuie introdus buton de HINT
+
+## trebuie refacuta partea de typescript
+
+## trebuie facute teste
+
+## pentru hint voi folosi un randomizor intre capitala, currency, si alte capuri, apoi voi face dispatch de call la api;
+
+## currency ul corect exista deja in array ul cu variante corecte; pot lua de acolo raspunsul
+
+## facuta stilizare
+
+## creata pagina de score
+
+## 10 puncte raspuns corect
+
+## 20 puncte raspuns corect in primele 5 secunde
+
+## on the responses answer the last country is not inserted

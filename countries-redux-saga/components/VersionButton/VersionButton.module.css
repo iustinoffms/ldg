@@ -1,0 +1,22 @@
+.version-button,
+.is-disabled,
+.selected-background-color {
+  background-color: #198e94;
+  border-radius: 1rem;
+  padding: 1rem;
+
+  -webkit-box-shadow: 0px 55px 75px -23px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 55px 75px -23px rgba(0, 0, 0, 1);
+  box-shadow: 0px 55px 75px -23px rgba(0, 0, 0, 1);
+}
+.versionButton:hover {
+  background-color: #70c9cc;
+}
+
+.selected-background-color {
+  background-color: #70c9cc;
+}
+
+.is-disabled {
+  background-color: grey;
+}

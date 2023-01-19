@@ -26,7 +26,7 @@ const PlayButton = (props: PlayButtonProps) => {
 
   return (
     <button
-      className="border-2  rounded-lg drop-shadow-2xl border-amber-300 mx-10 p-6 bg-amber-300 hover:bg-teal-600 hover:border-teal-600"
+      className="border-2  rounded-lg drop-shadow-2xl border-amber-300 mx-10 p-6 bg-amber-300 hover:bg-amber-200 hover:border-amber-200"
       value={region}
       onClick={onClickEventHandler}
     >
