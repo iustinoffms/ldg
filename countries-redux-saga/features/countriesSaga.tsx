@@ -40,7 +40,7 @@ function* fetchCountries(): Generator<
   const version = yield select(selectVersion);
 
   try {
-    yield delay(4000);
+    yield delay(2000);
     const { countries } = yield call(fetchCountriesApi);
 
     const versionRandomCountries = yield call(

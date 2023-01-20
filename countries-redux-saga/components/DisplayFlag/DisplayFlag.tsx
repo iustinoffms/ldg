@@ -32,15 +32,12 @@ const DisplayFlag = () => {
 
   return (
     <>
-      <div className="" style={{ border: "10px solid blue" }}>
-        <h2 className="text-5xl text-center py-10 text-amber-200 font-bold text-opacity-70 border-8 border-violet-300">
+      <div className="">
+        <h2 className="text-5xl text-center py-10 text-amber-200 font-bold text-opacity-70 ">
           What country is this ?
         </h2>
-        <div className="flex justify-center border-2 border-yellow-500">
-          <div
-            className="border-8 border-teal-400"
-            style={{ width: "700px", height: "400px" }}
-          >
+        <div className="flex justify-center mt-20">
+          <div className="" style={{ width: "700px", height: "400px" }}>
             <img
               src={countries[counter].flag}
               alt="flag"
@@ -53,10 +50,10 @@ const DisplayFlag = () => {
           </div>
         </div>
 
-        <div className="flex justify-center gap-28 my-10">
+        <div className="flex justify-center gap-28 my-20 mx-20">
           <button
             value={countries[counter].name}
-            className="border-2 w-2/6 p-4 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
+            className=" w-2/6 p-4 rounded-lg drop-shadow-2xl  bg-neutral-400  hover:bg-teal-400"
             onClick={answerAndNextFlag}
             disabled={disableButtons}
           >
@@ -64,7 +61,7 @@ const DisplayFlag = () => {
           </button>
           <button
             value={optionOneCountries[counter].name}
-            className="border-2 p-4 order-2  w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
+            className="p-4 order-2  w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
             onClick={answerAndNextFlag}
             disabled={disableButtons}
           >
@@ -72,7 +69,7 @@ const DisplayFlag = () => {
           </button>
           <button
             value={optionTwoCountries[counter].name}
-            className="border-2 p-4 w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
+            className="p-4 w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
             onClick={answerAndNextFlag}
             disabled={disableButtons}
           >
