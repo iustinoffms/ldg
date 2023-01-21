@@ -9,6 +9,7 @@ import {
   addAnswer,
   selectAnswers,
 } from "../../features/countriesSlice";
+import _ from "lodash";
 
 const DisplayFlag = () => {
   const countries = useSelector(selectCountries);
@@ -19,10 +20,16 @@ const DisplayFlag = () => {
   const answers = useSelector(selectAnswers);
   const dispatch = useDispatch();
 
-  console.log(countries);
+  console.log({ countries, optionOneCountries, optionTwoCountries });
+
+  // const [countryNames, setCountryNames] = React.useState([
+  //   countries[counter]?.name,
+  //   optionOneCountries[counter]?.name,
+  //   optionTwoCountries[counter]?.name,
+  // ]);
 
   const increaseStopCondition = counter === countries.length - 1;
-  // const disableButtons = answers.length === countries.length;
+  const disableButtons = answers.length === countries.length;
 
   const answerAndNextFlag = (e: any) => {
     if (!increaseStopCondition) {
@@ -53,28 +60,28 @@ const DisplayFlag = () => {
           </div>
         </div>
 
-        <div className="flex justify-center gap-28 my-20 mx-20">
+        <div className=" flex justify-center gap-28 my-20 mx-20">
           <button
             value={countries[counter].name}
-            className=" w-2/6 p-4 rounded-lg drop-shadow-2xl  bg-neutral-400  hover:bg-teal-400"
+            className="order-1 w-2/6 p-4 rounded-lg drop-shadow-2xl  bg-neutral-400  hover:bg-teal-400"
             onClick={answerAndNextFlag}
-            // disabled={disableButtons}
+            disabled={disableButtons}
           >
             {countries[counter].name}
           </button>
           <button
             value={optionOneCountries[counter].name}
-            className="p-4 order-2  w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
+            className="order-2 p-4  w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
             onClick={answerAndNextFlag}
-            // disabled={disableButtons}
+            disabled={disableButtons}
           >
             {optionOneCountries[counter].name}
           </button>
           <button
             value={optionTwoCountries[counter].name}
-            className="p-4 w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
+            className="order-3 p-4 w-2/6  rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
             onClick={answerAndNextFlag}
-            // disabled={disableButtons}
+            disabled={disableButtons}
           >
             {optionTwoCountries[counter].name}
           </button>

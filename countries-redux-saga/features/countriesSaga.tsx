@@ -23,6 +23,7 @@ import {
 import pickRandomCountries from "../utils/pickRandomCountries";
 import { selectVersion } from "./countriesSlice";
 import { Regions } from "../components/PlayGame/PlayGame";
+import _ from "lodash";
 
 function fetchCountriesApi() {
   return axios
@@ -41,10 +42,11 @@ function* fetchCountries(): Generator<
     yield delay(1000);
     const { countries } = yield call(fetchCountriesApi);
 
+    const pickCountriesAndOptions = countries.slice(0, version + 20);
+
     const versionRandomCountries = yield call(
-      pickRandomCountries,
-      countries,
-      version + 20
+      _.shuffle,
+      pickCountriesAndOptions
     );
 
     yield put(
@@ -80,10 +82,11 @@ function* fetchRegionCountries({
     yield delay(2000);
     const { regionCountries } = yield call(fetchRegionCountriesApi, payload);
 
+    const pickCountriesAndOptions = regionCountries.slice(0, version + 20);
+
     const versionRandomCountries = yield call(
-      pickRandomCountries,
-      regionCountries,
-      version + 20
+      _.shuffle,
+      pickCountriesAndOptions
     );
 
     yield put(
@@ -121,16 +124,14 @@ function* fetchOceaniaCountries(): Generator<
     const { oceaniaCountries } = yield call(fetchOceaniaCountriesApi);
     const { americasCountries } = yield call(fetchAmericasCountriesApi);
 
-    const versionRandomCountries = yield call(
-      pickRandomCountries,
-      oceaniaCountries,
-      version
-    );
+    const pickOceaniaCountries = oceaniaCountries.slice(0, version);
+    const pickAmericasCountries = americasCountries.slice(0, version + 10);
+
+    const versionRandomCountries = yield call(_.shuffle, pickOceaniaCountries);
 
     const randomizeAmericasCountries = yield call(
-      pickRandomCountries,
-      americasCountries,
-      version + 10
+      _.shuffle,
+      pickAmericasCountries
     );
 
     yield put(
