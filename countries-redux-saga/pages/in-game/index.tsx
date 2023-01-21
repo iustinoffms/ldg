@@ -8,18 +8,17 @@ import {
   getOceaniaCountriesRequest,
   getRegionCountriesRequest,
   selectCountries,
-  selectRegion,
   selectRequestStatus,
 } from "../../features/countriesSlice";
 import { Regions } from "../../components/PlayGame/PlayGame";
+import BeforePlayDisplay from "../../components/BeforePlayDisplay/BeforePlayDisplay";
 
 const InGame = () => {
-  const countries = useSelector(selectCountries);
-
   const { isLoading, error } = useSelector(selectRequestStatus);
-  const dispatch = useDispatch();
   const { push, query } = useRouter();
   const region = query.region as string;
+
+  const dispatch = useDispatch();
 
   const getTheList = React.useCallback(
     (region: string) => {
@@ -42,9 +41,13 @@ const InGame = () => {
     getTheList(region);
   }, [region, getTheList]);
 
-  if (isLoading) return <div>Loading</div>;
-  if (error) return <div>{error}</div>;
+  if (isLoading) {
+    return <BeforePlayDisplay isLoading={isLoading} error={error} />;
+  }
 
+  if (error) {
+    return <BeforePlayDisplay isLoading={isLoading} error={error} />;
+  }
   return <DisplayFlag />;
 };
 

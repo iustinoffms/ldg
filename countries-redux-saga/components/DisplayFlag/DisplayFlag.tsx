@@ -17,7 +17,6 @@ const DisplayFlag = () => {
 
   const counter = useSelector((state: any) => state.countries.counter);
   const answers = useSelector(selectAnswers);
-  const isLoading = useSelector((state: any) => state.countries.isLoading);
   const dispatch = useDispatch();
 
   console.log(countries);

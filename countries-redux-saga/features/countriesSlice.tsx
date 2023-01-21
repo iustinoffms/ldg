@@ -128,7 +128,6 @@ export const selectOptionOneCountries = (state: any) =>
   state.countries.optionOneCountries;
 export const selectOptionTwoCountries = (state: any) =>
   state.countries.optionTwoCountries;
-export const selectRegion = (state: any) => state.countries.region;
 export const selectVersion = (state: any) => state.countries.version;
 export const selectAnswers = (state: any) => state.countries.answers;
 
