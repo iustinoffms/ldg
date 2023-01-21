@@ -51,17 +51,27 @@ const countriesSlice = createSlice({
     setOptionTwoCountries: (state, { payload }) => {
       state.optionTwoCountries = payload;
     },
-    setRegion: (state, { payload }) => {
+    getRegionCountriesRequest: (state, { payload }) => {
       state.region = payload;
-    },
-    getRegionCountries: (state, { payload }) => {
       state.isLoading = true;
+      state.error = "";
+      console.log("getRegionCountriesRequest");
+    },
+    getRegionCountriesSuccess: (state, { payload }) => {
+      console.log("getregionCountriesSUcess");
+      state.countries = payload.countries;
+      state.isLoading = false;
+      state.error = "";
+      state.optionOneCountries = payload.optionOneCountries;
+      state.optionTwoCountries = payload.optionTwoCountries;
+    },
+
+    getRegionCountriesFailure: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
     },
     setRegionCountries: (state, { payload }) => {
       state.countries = payload;
-      state.isLoading = false;
-    },
-    getRegionCountriesError: (state, { payload }) => {
       state.isLoading = false;
     },
 
@@ -76,32 +86,41 @@ const countriesSlice = createSlice({
     addAnswer: (state, { payload }) => {
       state.answers.push(payload);
     },
-    getOceaniaCountries: (state) => {
+    getOceaniaCountriesRequest: (state) => {
       state.isLoading = true;
+      state.error = "";
     },
 
-    setOceaniaCountries: (state, { payload }) => {
-      state.countries = payload;
+    getOceaniaCountriesSuccess: (state, { payload }) => {
+      state.countries = payload.countries;
+      state.optionOneCountries = payload.optionOneCountries;
+      state.optionTwoCountries = payload.optionTwoCountries;
       state.isLoading = false;
+      state.error = "";
+    },
+    getOceaniaCountriesFailure: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
     },
   },
 });
 
 export const {
-  getCountriesSuccess,
   getCountriesRequest,
+  getCountriesSuccess,
   getCountriesFailure,
   setOptionOneCountries,
   setOptionTwoCountries,
-  setRegion,
-  getRegionCountriesError,
+  getRegionCountriesRequest,
+  getRegionCountriesSuccess,
+  getRegionCountriesFailure,
   setRegionCountries,
-  getRegionCountries,
   increase,
   setVersion,
   addAnswer,
-  getOceaniaCountries,
-  setOceaniaCountries,
+  getOceaniaCountriesRequest,
+  getOceaniaCountriesSuccess,
+  getOceaniaCountriesFailure,
 } = countriesSlice.actions;
 
 export const selectCountries = (state: any) => state.countries.countries;

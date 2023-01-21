@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import DisplayFlag from "../../components/DisplayFlag/DisplayFlag";
 import {
   getCountriesRequest,
-  getOceaniaCountries,
-  getRegionCountries,
+  getOceaniaCountriesRequest,
+  getRegionCountriesRequest,
   selectCountries,
   selectRegion,
   selectRequestStatus,
@@ -15,6 +15,7 @@ import { Regions } from "../../components/PlayGame/PlayGame";
 
 const InGame = () => {
   const countries = useSelector(selectCountries);
+
   const { isLoading, error } = useSelector(selectRequestStatus);
   const dispatch = useDispatch();
   const { push, query } = useRouter();
@@ -28,9 +29,9 @@ const InGame = () => {
         return;
       }
       if (region === Regions.OCEANIA) {
-        dispatch(getOceaniaCountries());
+        dispatch(getOceaniaCountriesRequest());
       } else {
-        dispatch(getRegionCountries(region));
+        dispatch(getRegionCountriesRequest(region));
       }
     },
     [dispatch]

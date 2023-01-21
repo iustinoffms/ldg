@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { setVersion } from "../../features/countriesSlice";
 import styles from "./VersionButton.module.css";
+
 interface VersionButtonProps {
   version: number;
   disabled?: boolean;

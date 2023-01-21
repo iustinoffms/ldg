@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   selectCountries,
   selectOptionOneCountries,
@@ -13,13 +14,16 @@ const DisplayFlag = () => {
   const countries = useSelector(selectCountries);
   const optionOneCountries = useSelector(selectOptionOneCountries);
   const optionTwoCountries = useSelector(selectOptionTwoCountries);
+
   const counter = useSelector((state: any) => state.countries.counter);
   const answers = useSelector(selectAnswers);
   const isLoading = useSelector((state: any) => state.countries.isLoading);
   const dispatch = useDispatch();
 
+  console.log(countries);
+
   const increaseStopCondition = counter === countries.length - 1;
-  const disableButtons = answers.length === countries.length;
+  // const disableButtons = answers.length === countries.length;
 
   const answerAndNextFlag = (e: any) => {
     if (!increaseStopCondition) {
@@ -55,7 +59,7 @@ const DisplayFlag = () => {
             value={countries[counter].name}
             className=" w-2/6 p-4 rounded-lg drop-shadow-2xl  bg-neutral-400  hover:bg-teal-400"
             onClick={answerAndNextFlag}
-            disabled={disableButtons}
+            // disabled={disableButtons}
           >
             {countries[counter].name}
           </button>
@@ -63,7 +67,7 @@ const DisplayFlag = () => {
             value={optionOneCountries[counter].name}
             className="p-4 order-2  w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
             onClick={answerAndNextFlag}
-            disabled={disableButtons}
+            // disabled={disableButtons}
           >
             {optionOneCountries[counter].name}
           </button>
@@ -71,7 +75,7 @@ const DisplayFlag = () => {
             value={optionTwoCountries[counter].name}
             className="p-4 w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
             onClick={answerAndNextFlag}
-            disabled={disableButtons}
+            // disabled={disableButtons}
           >
             {optionTwoCountries[counter].name}
           </button>

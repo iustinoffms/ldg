@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { setRegion } from "../../features/countriesSlice";
 
 interface PlayButtonProps {
   region?: string;
@@ -9,10 +8,7 @@ interface PlayButtonProps {
 const PlayButton = (props: PlayButtonProps) => {
   const { region } = props;
   const { push } = useRouter();
-  const dispatch = useDispatch();
-
   const onClickEventHandler = () => {
-    // dispatch(setRegion(region));
     push(`/in-game?region=${region}`);
   };
 
