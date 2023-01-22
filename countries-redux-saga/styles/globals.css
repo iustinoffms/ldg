@@ -39,15 +39,3 @@ a {
     background: black;
   }
 }
-
-.order-1 {
-  border: 1px solid red;
-}
-
-.order-2 {
-  border: 1px solid green;
-}
-
-.order-3 {
-  border: 1px solid blue;
-}

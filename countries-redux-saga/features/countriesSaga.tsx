@@ -1,18 +1,23 @@
+import _ from "lodash";
+import httpClient from "./HttpClient";
+
 import {
   call,
-  CallEffect,
   put,
-  PutEffect,
-  SelectEffect,
-  takeLatest,
   select,
+  takeLatest,
   delay,
   take,
+  all,
   apply,
   race,
   RaceEffect,
+  PutEffect,
+  SelectEffect,
+  AllEffect,
+  CallEffect,
 } from "redux-saga/effects";
-import axios from "axios";
+
 import {
   getCountriesRequest,
   getCountriesSuccess,
@@ -27,32 +32,30 @@ import {
   addAnswer,
   answerFailed,
   answerSucess,
+  selectVersion,
 } from "./countriesSlice";
-import { selectVersion } from "./countriesSlice";
+
 import { Regions } from "../components/PlayGame/PlayGame";
-import _ from "lodash";
 
 const APIS = {
   fetchCountriesApi() {
-    return axios
-      .get("https://restcountries.com/v2/all")
-      .then(({ data }) => ({ countries: data }));
+    return httpClient.get("/all").then(({ data }) => ({ countries: data }));
   },
   fetchRegionCountriesApi(region: string) {
-    return axios
-      .get(`https://restcountries.com/v2/region/${region}`)
-      .then(({ data }) => ({ regionCountries: data }));
+    return httpClient
+      .get(`/region/${region}`)
+      .then(({ data }) => ({ countries: data }));
   },
 
   fetchOceaniaCountriesApi() {
-    return axios
-      .get(`https://restcountries.com/v2/region/Oceania`)
-      .then(({ data }) => ({ oceaniaCountries: data }));
+    return httpClient
+      .get(`/region/Oceania`)
+      .then(({ data }) => ({ countries: data }));
   },
   fetchAmericasCountriesApi() {
-    return axios
-      .get(`https://restcountries.com/v2/region/Americas`)
-      .then(({ data }) => ({ americasCountries: data }));
+    return httpClient
+      .get(`/region/Americas`)
+      .then(({ data }) => ({ countries: data }));
   },
 };
 
@@ -89,8 +92,6 @@ function* fetchCountries(): Generator<
 function* fetchRegionCountries({
   payload,
 }: any): Generator<CallEffect | PutEffect | SelectEffect, void, any> {
-  //the payload is the region sent as payload from the dispatched getRegionCountriesRequest
-
   const version = yield select(selectVersion);
 
   if (payload === Regions.OCEANIA || payload === Regions.ALL_COUNTRIES) {
@@ -99,13 +100,13 @@ function* fetchRegionCountries({
 
   try {
     yield delay(2000);
-    const { regionCountries } = yield yield apply(
+    const { countries } = yield yield apply(
       APIS,
       APIS.fetchRegionCountriesApi,
       [payload]
     );
 
-    const pickCountriesAndOptions = regionCountries.slice(0, version + 20);
+    const pickCountriesAndOptions = countries.slice(0, version + 20);
 
     const versionRandomCountries = yield call(
       _.shuffle,
@@ -125,7 +126,7 @@ function* fetchRegionCountries({
 }
 
 function* fetchOceaniaCountries(): Generator<
-  CallEffect | PutEffect | SelectEffect,
+  CallEffect | PutEffect | SelectEffect | AllEffect<any>,
   void,
   any
 > {
@@ -133,25 +134,20 @@ function* fetchOceaniaCountries(): Generator<
 
   try {
     yield delay(2000);
-    const { oceaniaCountries } = yield apply(
-      APIS,
-      APIS.fetchOceaniaCountriesApi,
-      []
-    );
-    const { americasCountries } = yield apply(
+    const { countries } = yield apply(APIS, APIS.fetchOceaniaCountriesApi, []);
+    const { countries: americasCountriesData } = yield apply(
       APIS,
       APIS.fetchAmericasCountriesApi,
       []
     );
 
-    const pickOceaniaCountries = oceaniaCountries.slice(0, version);
-    const pickAmericasCountries = americasCountries.slice(0, version + 10);
+    const pickOceaniaCountries = countries.slice(0, version);
+    const pickAmericasCountries = americasCountriesData.slice(0, version + 10);
 
-    const versionRandomCountries = yield call(_.shuffle, pickOceaniaCountries);
-    const randomizeAmericasCountries = yield call(
-      _.shuffle,
-      pickAmericasCountries
-    );
+    const [versionRandomCountries, randomizeAmericasCountries] = yield all([
+      call(_.shuffle, pickOceaniaCountries),
+      call(_.shuffle, pickAmericasCountries),
+    ]);
 
     yield put(
       getOceaniaCountriesSuccess({
@@ -182,15 +178,8 @@ function* watchAnswerRequest(): Generator<
   }
 }
 
-//watcher saga
-
 function* countriesSaga() {
   yield takeLatest(getCountriesRequest, fetchCountries);
-
-  //getRegionCountriesRequest has a payload === region
-  //this payload is passed to the fetchRegionCountries
-  //takeLatest(dispatchedAction.type, saga, ...args)
-  // args must be an array
   yield takeLatest(getRegionCountriesRequest, fetchRegionCountries);
   yield takeLatest(getOceaniaCountriesRequest, fetchOceaniaCountries);
   yield takeLatest(answerRequest, watchAnswerRequest);

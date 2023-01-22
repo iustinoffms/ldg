@@ -57,7 +57,6 @@ const DisplayFlag = () => {
     return () => {
       setTimer(10);
       clearInterval(intervalId);
-      console.log("cleanup function ");
     };
   }, [counter, dispatch]);
 
@@ -71,16 +70,17 @@ const DisplayFlag = () => {
           {counter + 1} / {version}
         </span>
         <div className="flex justify-center mt-8">
-          <div className="" style={{ width: "700px", height: "400px" }}>
-            <img
-              src={currentCountry?.flag}
-              alt="flag"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }}
-            />
+          <div className="relative" style={{ width: "700px", height: "400px" }}>
+            {currentCountry?.flag && (
+              <Image
+                fill
+                src={currentCountry?.flag}
+                alt={currentCountry?.name}
+                style={{
+                  objectFit: "cover",
+                }}
+              />
+            )}
           </div>
         </div>
 
