@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import Button from "../Button/Button";
 
 interface PlayButtonProps {
   region?: string;
@@ -8,19 +9,11 @@ interface PlayButtonProps {
 const PlayButton = (props: PlayButtonProps) => {
   const { region } = props;
   const { push } = useRouter();
-  const onClickEventHandler = () => {
+  const playButtonHandler = () => {
     push(`/in-game?region=${region}`);
   };
 
-  return (
-    <button
-      className="border-2  rounded-lg drop-shadow-2xl border-amber-300 mx-10 p-6 bg-amber-300 hover:bg-amber-200 hover:border-amber-200"
-      value={region}
-      onClick={onClickEventHandler}
-    >
-      Play the {region} game
-    </button>
-  );
+  return <Button onClick={playButtonHandler}>Play the {region} game</Button>;
 };
 
 export default PlayButton;

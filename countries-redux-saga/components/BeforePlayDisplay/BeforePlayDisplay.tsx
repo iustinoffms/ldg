@@ -12,9 +12,9 @@ const BeforePlayDisplay = (props: LoadingProps) => {
   return isLoading ? (
     <div className="flex justify-center items-center h-full">
       <TailSpin
-        height="200"
-        width="200"
-        color="#4fa94d"
+        height="300"
+        width="300"
+        color="#eebbc3"
         ariaLabel="tail-spin-loading"
         radius="1"
         wrapperStyle={{}}

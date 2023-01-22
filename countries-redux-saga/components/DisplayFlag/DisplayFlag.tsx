@@ -1,13 +1,16 @@
 import _ from "lodash";
+import Image from "next/image";
 import * as React from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-
 import {
   addAnswer,
   answerRequest,
+  selectAnswers,
   selectFlagScreenData,
+  selectVersion,
 } from "../../features/countriesSlice";
+import Button from "../Button/Button";
 
 const widths: Record<number, string> = {
   0: "w-[0%]",
@@ -26,11 +29,14 @@ const widths: Record<number, string> = {
 const DisplayFlag = () => {
   const dispatch = useDispatch();
   const { push } = useRouter();
+  const version = useSelector(selectVersion);
+  const answers = useSelector(selectAnswers);
+  const { options, currentCountry, counter } =
+    useSelector(selectFlagScreenData);
 
   const [timer, setTimer] = React.useState<number>(10);
 
-  const { options, currentCountry, counter } =
-    useSelector(selectFlagScreenData);
+  const showSeeTheResults = answers.length === version;
 
   const disableButtons = counter > 9;
 
@@ -51,16 +57,20 @@ const DisplayFlag = () => {
     return () => {
       setTimer(10);
       clearInterval(intervalId);
+      console.log("cleanup function ");
     };
   }, [counter, dispatch]);
 
   return (
     <>
-      <div className="">
-        <h2 className="text-5xl text-center py-10 text-amber-200 font-bold text-opacity-70 ">
+      <div className="flex flex-col gap-8 max-w-screen-2xl">
+        <h2 className="text-5xl text-center  text-title font-bold ">
           What country is this ?
         </h2>
-        <div className="flex justify-center mt-20">
+        <span className="text-xl  text-center  text-title font-semibold">
+          {counter + 1} / {version}
+        </span>
+        <div className="flex justify-center mt-8">
           <div className="" style={{ width: "700px", height: "400px" }}>
             <img
               src={currentCountry?.flag}
@@ -74,37 +84,44 @@ const DisplayFlag = () => {
           </div>
         </div>
 
-        <div className=" flex justify-center gap-28 my-20 mx-20">
-          <button
-            value={options[0]?.name}
-            className="order-1 w-2/6 p-4 rounded-lg drop-shadow-2xl  bg-neutral-400  hover:bg-teal-400"
-            onClick={answerAndNextFlag}
-            disabled={disableButtons}
-          >
-            {options[0]?.name}
-          </button>
-          <button
-            value={options[1]?.name}
-            className="order-2 p-4  w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
-            onClick={answerAndNextFlag}
-            disabled={disableButtons}
-          >
-            {options[1]?.name}
-          </button>
-          <button
-            value={options[2]?.name}
-            className="order-3 p-4 w-2/6  rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
-            onClick={answerAndNextFlag}
-            disabled={disableButtons}
-          >
-            {options[2]?.name}
-          </button>
-        </div>
-        <div className={`bg-blue-300 ${widths[timer]} h-7`} />
-
-        <div className="border-2 text-center">
-          <button onClick={seeTheResults}>see the results</button>
-        </div>
+        {!showSeeTheResults && (
+          <div className="flex justify-between gap-8">
+            <Button
+              className="flex-1"
+              value={options[0]?.name}
+              onClick={answerAndNextFlag}
+              disabled={disableButtons}
+            >
+              {options[0]?.name}
+            </Button>
+            <Button
+              className="flex-1"
+              value={options[1]?.name}
+              onClick={answerAndNextFlag}
+              disabled={disableButtons}
+            >
+              {options[1]?.name}
+            </Button>
+            <Button
+              className="flex-1"
+              value={options[2]?.name}
+              onClick={answerAndNextFlag}
+              disabled={disableButtons}
+            >
+              {options[2]?.name}
+            </Button>
+          </div>
+        )}
+        {!showSeeTheResults && (
+          <div className="border border-title bg-title  rounded-md">
+            <div className={`bg-primary ${widths[timer]} h-7 rounded-md`} />
+          </div>
+        )}
+        {showSeeTheResults && (
+          <Button className="bg-accent" onClick={seeTheResults}>
+            See the results
+          </Button>
+        )}
       </div>
     </>
   );

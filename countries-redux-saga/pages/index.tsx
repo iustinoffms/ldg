@@ -4,11 +4,9 @@ import PlayGame from "../components/PlayGame/PlayGame";
 const Home: NextPage = () => {
   return (
     <>
-      <div className=" py-24">
-        <h1 className="text-5xl text-center  text-amber-200 font-bold text-opacity-70">
-          Welcome to Around the World Game!
-        </h1>
-      </div>
+      <h1 className="text-title text-5xl text-center  font-bold ">
+        Welcome to Around the World Game!
+      </h1>
 
       <PlayGame />
     </>
