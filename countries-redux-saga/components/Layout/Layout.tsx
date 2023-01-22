@@ -5,7 +5,7 @@ interface LayoutProps {
 }
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <main className=" bg-bg h-full flex flex-col justify-center items-center">
+    <main className=" bg-bg h-full flex flex-col  overflow-y-auto py-16 items-center">
       {children}
     </main>
   );

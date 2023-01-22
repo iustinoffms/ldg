@@ -8,6 +8,7 @@ html {
   font-family: "Outfit", sans-serif;
   font-family: "Roboto", sans-serif;
   height: 100vh;
+  overflow-y: hidden;
 }
 body {
   padding: 0;
@@ -15,6 +16,7 @@ body {
   font-family: "Outfit", sans-serif;
   font-family: "Roboto", sans-serif;
   height: 100%;
+  overflow-y: hidden;
 }
 #__next {
   height: 100%;
