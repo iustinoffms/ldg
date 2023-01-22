@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import _ from "lodash";
 interface initialStateProps {
   countries: any[];
   isLoading: boolean;
@@ -90,9 +90,7 @@ const countriesSlice = createSlice({
     setVersion: (state, { payload }) => {
       state.version = payload;
     },
-    addAnswer: (state, { payload }) => {
-      state.answers.push(payload);
-    },
+    addAnswer: (state, { payload }) => {},
     getOceaniaCountriesRequest: (state) => {
       state.isLoading = true;
       state.error = "";
@@ -122,6 +120,20 @@ const countriesSlice = createSlice({
     stopTimer: (state, { payload }) => {
       state.timer = payload;
     },
+
+    answerRequest: (state) => {},
+    answerSucess: (state, { payload }) => {
+      if (state.counter < state.countries.length - 1) {
+        state.counter++;
+      }
+      state.answers.push(payload);
+    },
+    answerFailed: (state) => {
+      if (state.counter < state.countries.length - 1) {
+        state.counter++;
+      }
+      state.answers.push("Not answered");
+    },
   },
 });
 
@@ -144,6 +156,9 @@ export const {
   setScore,
   startTimer,
   stopTimer,
+  answerRequest,
+  answerFailed,
+  answerSucess,
 } = countriesSlice.actions;
 
 export const selectCountries = (state: any) => state.countries.countries;
@@ -153,6 +168,16 @@ export const selectOptionTwoCountries = (state: any) =>
   state.countries.optionTwoCountries;
 export const selectVersion = (state: any) => state.countries.version;
 export const selectAnswers = (state: any) => state.countries.answers;
+
+export const selectFlagScreenData = (state: any) => ({
+  counter: state.countries.counter,
+  options: _.shuffle([
+    state.countries.countries[state.countries.counter],
+    state.countries.optionOneCountries[state.countries.counter],
+    state.countries.optionTwoCountries[state.countries.counter],
+  ]),
+  currentCountry: state.countries.countries[state.countries.counter],
+});
 
 export const selectRequestStatus = (state: any) => ({
   isLoading: state.countries.isLoading,

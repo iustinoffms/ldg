@@ -5,12 +5,12 @@ import {
   PutEffect,
   SelectEffect,
   takeLatest,
-  takeEvery,
   select,
   delay,
-  putResolve,
   take,
-  TakeEffect,
+  apply,
+  race,
+  RaceEffect,
 } from "redux-saga/effects";
 import axios from "axios";
 import {
@@ -23,20 +23,38 @@ import {
   getOceaniaCountriesRequest,
   getOceaniaCountriesSuccess,
   getOceaniaCountriesFailure,
-  startTimer,
-  selectTimer,
-  stopTimer,
-  increase,
+  answerRequest,
+  addAnswer,
+  answerFailed,
+  answerSucess,
 } from "./countriesSlice";
 import { selectVersion } from "./countriesSlice";
 import { Regions } from "../components/PlayGame/PlayGame";
 import _ from "lodash";
 
-function fetchCountriesApi() {
-  return axios
-    .get("https://restcountries.com/v2/all")
-    .then(({ data }) => ({ countries: data }));
-}
+const APIS = {
+  fetchCountriesApi() {
+    return axios
+      .get("https://restcountries.com/v2/all")
+      .then(({ data }) => ({ countries: data }));
+  },
+  fetchRegionCountriesApi(region: string) {
+    return axios
+      .get(`https://restcountries.com/v2/region/${region}`)
+      .then(({ data }) => ({ regionCountries: data }));
+  },
+
+  fetchOceaniaCountriesApi() {
+    return axios
+      .get(`https://restcountries.com/v2/region/Oceania`)
+      .then(({ data }) => ({ oceaniaCountries: data }));
+  },
+  fetchAmericasCountriesApi() {
+    return axios
+      .get(`https://restcountries.com/v2/region/Americas`)
+      .then(({ data }) => ({ americasCountries: data }));
+  },
+};
 
 function* fetchCountries(): Generator<
   CallEffect | PutEffect | SelectEffect,
@@ -47,7 +65,7 @@ function* fetchCountries(): Generator<
 
   try {
     yield delay(1000);
-    const { countries } = yield call(fetchCountriesApi);
+    const { countries } = yield apply(APIS, APIS.fetchCountriesApi, []);
 
     const pickCountriesAndOptions = countries.slice(0, version + 20);
 
@@ -68,12 +86,6 @@ function* fetchCountries(): Generator<
   }
 }
 
-function fetchRegionCountriesApi(region: string) {
-  return axios
-    .get(`https://restcountries.com/v2/region/${region}`)
-    .then(({ data }) => ({ regionCountries: data }));
-}
-
 function* fetchRegionCountries({
   payload,
 }: any): Generator<CallEffect | PutEffect | SelectEffect, void, any> {
@@ -87,7 +99,11 @@ function* fetchRegionCountries({
 
   try {
     yield delay(2000);
-    const { regionCountries } = yield call(fetchRegionCountriesApi, payload);
+    const { regionCountries } = yield yield apply(
+      APIS,
+      APIS.fetchRegionCountriesApi,
+      [payload]
+    );
 
     const pickCountriesAndOptions = regionCountries.slice(0, version + 20);
 
@@ -108,17 +124,6 @@ function* fetchRegionCountries({
   }
 }
 
-function fetchOceaniaCountriesApi() {
-  return axios
-    .get(`https://restcountries.com/v2/region/Oceania`)
-    .then(({ data }) => ({ oceaniaCountries: data }));
-}
-function fetchAmericasCountriesApi() {
-  return axios
-    .get(`https://restcountries.com/v2/region/Americas`)
-    .then(({ data }) => ({ americasCountries: data }));
-}
-
 function* fetchOceaniaCountries(): Generator<
   CallEffect | PutEffect | SelectEffect,
   void,
@@ -128,8 +133,16 @@ function* fetchOceaniaCountries(): Generator<
 
   try {
     yield delay(2000);
-    const { oceaniaCountries } = yield call(fetchOceaniaCountriesApi);
-    const { americasCountries } = yield call(fetchAmericasCountriesApi);
+    const { oceaniaCountries } = yield apply(
+      APIS,
+      APIS.fetchOceaniaCountriesApi,
+      []
+    );
+    const { americasCountries } = yield apply(
+      APIS,
+      APIS.fetchAmericasCountriesApi,
+      []
+    );
 
     const pickOceaniaCountries = oceaniaCountries.slice(0, version);
     const pickAmericasCountries = americasCountries.slice(0, version + 10);
@@ -152,18 +165,20 @@ function* fetchOceaniaCountries(): Generator<
   }
 }
 
-function* workerStartTimer(): Generator<
-  CallEffect | PutEffect | SelectEffect,
+function* watchAnswerRequest(): Generator<
+  CallEffect | PutEffect | SelectEffect | RaceEffect<any>,
   void,
   any
 > {
-  let timer: number = yield select(selectTimer);
-  console.log(timer);
-  yield delay(1000);
-  timer--;
-  if (timer < 0) {
-    yield put(stopTimer(timer));
-    yield put(increase());
+  const raceResult = yield race({
+    answered: take(addAnswer),
+    timeIsUp: delay(10 * 1000),
+  });
+
+  if (raceResult.timeIsUp) {
+    yield put(answerFailed());
+  } else {
+    yield put(answerSucess(raceResult.answered.payload));
   }
 }
 
@@ -178,7 +193,7 @@ function* countriesSaga() {
   // args must be an array
   yield takeLatest(getRegionCountriesRequest, fetchRegionCountries);
   yield takeLatest(getOceaniaCountriesRequest, fetchOceaniaCountries);
-  yield takeLatest(startTimer, workerStartTimer);
+  yield takeLatest(answerRequest, watchAnswerRequest);
 }
 
 export default countriesSaga;

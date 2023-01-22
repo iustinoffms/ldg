@@ -6,6 +6,14 @@ const Results = () => {
   const countries = useSelector(selectCountries);
   const answers = useSelector(selectAnswers);
 
+  React.useEffect(() => {
+    const finalResults = countries.filter(
+      (country: any, index: number) => country.name === answers[index]
+    );
+
+    // dispatch(setScore(finalResults.length));
+  }, []);
+
   return (
     <div>
       {countries.map((country: any, index: number) => (

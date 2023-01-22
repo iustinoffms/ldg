@@ -1,69 +1,58 @@
+import _ from "lodash";
 import * as React from "react";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  selectCountries,
-  selectOptionOneCountries,
-  selectOptionTwoCountries,
-  increase,
   addAnswer,
-  selectAnswers,
-  setScore,
-  startTimer,
+  answerRequest,
+  selectFlagScreenData,
 } from "../../features/countriesSlice";
-import _ from "lodash";
-import { useRouter } from "next/router";
-import { END } from "redux-saga";
+
+const widths: Record<number, string> = {
+  0: "w-[0%]",
+  1: "w-[10%]",
+  2: "w-[20%]",
+  3: "w-[30%]",
+  4: "w-[40%]",
+  5: "w-[50%]",
+  6: "w-[60%]",
+  7: "w-[70%]",
+  8: "w-[80%]",
+  9: "w-[90%]",
+  10: "w-[100%]",
+};
 
 const DisplayFlag = () => {
-  const countries = useSelector(selectCountries);
-  const optionOneCountries = useSelector(selectOptionOneCountries);
-  const optionTwoCountries = useSelector(selectOptionTwoCountries);
-
-  const counter = useSelector((state: any) => state.countries.counter);
-  const answers = useSelector(selectAnswers);
   const dispatch = useDispatch();
-  console.log(countries);
   const { push } = useRouter();
 
-  console.log({ countries, optionOneCountries, optionTwoCountries });
+  const [timer, setTimer] = React.useState<number>(10);
 
-  // const [countryNames, setCountryNames] = React.useState([
-  //   countries[counter]?.name,
-  //   optionOneCountries[counter]?.name,
-  //   optionTwoCountries[counter]?.name,
-  // ]);
+  const { options, currentCountry, counter } =
+    useSelector(selectFlagScreenData);
 
-  const increaseStopCondition = counter === countries.length - 1;
-  const disableButtons = answers.length === countries.length;
-
-  let reordered = [];
-
-  React.useEffect(() => {
-    dispatch(startTimer());
-  }, []);
-
-  console.log(answers);
+  const disableButtons = counter > 9;
 
   const answerAndNextFlag = (e: any) => {
-    if (!increaseStopCondition) {
-      // dispatch(END);
-      dispatch(increase());
-    }
     dispatch(addAnswer(e.target.value));
   };
 
   const seeTheResults = () => {
     push("/results");
-
-    const finalResults = countries.filter(
-      (country: any, index: number) => country.name === answers[index]
-    );
-
-    console.log(finalResults);
-    // dispatch(setScore(finalResults.length));
   };
-  if (countries.length === 0) return null;
+
+  React.useEffect(() => {
+    dispatch(answerRequest());
+    const intervalId = setInterval(() => {
+      setTimer((t) => t - 1);
+    }, 1000);
+
+    return () => {
+      setTimer(10);
+      clearInterval(intervalId);
+    };
+  }, [counter, dispatch]);
 
   return (
     <>
@@ -74,7 +63,7 @@ const DisplayFlag = () => {
         <div className="flex justify-center mt-20">
           <div className="" style={{ width: "700px", height: "400px" }}>
             <img
-              src={countries[counter].flag}
+              src={currentCountry?.flag}
               alt="flag"
               style={{
                 width: "100%",
@@ -87,30 +76,31 @@ const DisplayFlag = () => {
 
         <div className=" flex justify-center gap-28 my-20 mx-20">
           <button
-            value={countries[counter].name}
+            value={options[0]?.name}
             className="order-1 w-2/6 p-4 rounded-lg drop-shadow-2xl  bg-neutral-400  hover:bg-teal-400"
             onClick={answerAndNextFlag}
             disabled={disableButtons}
           >
-            {countries[counter].name}
+            {options[0]?.name}
           </button>
           <button
-            value={optionOneCountries[counter].name}
+            value={options[1]?.name}
             className="order-2 p-4  w-2/6 rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
             onClick={answerAndNextFlag}
             disabled={disableButtons}
           >
-            {optionOneCountries[counter].name}
+            {options[1]?.name}
           </button>
           <button
-            value={optionTwoCountries[counter].name}
+            value={options[2]?.name}
             className="order-3 p-4 w-2/6  rounded-lg drop-shadow-2xl border-neutral-400 bg-neutral-400  hover:bg-teal-400 hover:border-teal-400"
             onClick={answerAndNextFlag}
             disabled={disableButtons}
           >
-            {optionTwoCountries[counter].name}
+            {options[2]?.name}
           </button>
         </div>
+        <div className={`bg-blue-300 ${widths[timer]} h-7`} />
 
         <div className="border-2 text-center">
           <button onClick={seeTheResults}>see the results</button>
