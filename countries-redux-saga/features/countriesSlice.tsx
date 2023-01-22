@@ -11,6 +11,7 @@ interface initialStateProps {
   optionTwoCountries: any[];
   answers: string[];
   error: string;
+  timer: number;
 }
 
 const initialState: initialStateProps = {
@@ -24,6 +25,7 @@ const initialState: initialStateProps = {
   optionOneCountries: [],
   optionTwoCountries: [],
   answers: [],
+  timer: 10,
 };
 
 const countriesSlice = createSlice({
@@ -33,6 +35,9 @@ const countriesSlice = createSlice({
     getCountriesRequest: (state) => {
       state.isLoading = true;
       state.error = "";
+      state.countries = [];
+      state.answers = [];
+      state.counter = 0;
     },
     getCountriesSuccess: (state, { payload }) => {
       state.countries = payload.countries;
@@ -55,7 +60,9 @@ const countriesSlice = createSlice({
       state.region = payload;
       state.isLoading = true;
       state.error = "";
-      console.log("getRegionCountriesRequest");
+      state.countries = [];
+      state.answers = [];
+      state.counter = 0;
     },
     getRegionCountriesSuccess: (state, { payload }) => {
       console.log("getregionCountriesSUcess");
@@ -89,6 +96,9 @@ const countriesSlice = createSlice({
     getOceaniaCountriesRequest: (state) => {
       state.isLoading = true;
       state.error = "";
+      state.countries = [];
+      state.answers = [];
+      state.counter = 0;
     },
 
     getOceaniaCountriesSuccess: (state, { payload }) => {
@@ -101,6 +111,16 @@ const countriesSlice = createSlice({
     getOceaniaCountriesFailure: (state, { payload }) => {
       state.isLoading = false;
       state.error = payload;
+    },
+
+    setScore: (state, { payload }) => {
+      state.score = payload;
+    },
+    startTimer: (state) => {
+      state.timer = 10;
+    },
+    stopTimer: (state, { payload }) => {
+      state.timer = payload;
     },
   },
 });
@@ -121,6 +141,9 @@ export const {
   getOceaniaCountriesRequest,
   getOceaniaCountriesSuccess,
   getOceaniaCountriesFailure,
+  setScore,
+  startTimer,
+  stopTimer,
 } = countriesSlice.actions;
 
 export const selectCountries = (state: any) => state.countries.countries;
@@ -135,5 +158,8 @@ export const selectRequestStatus = (state: any) => ({
   isLoading: state.countries.isLoading,
   error: state.countries.error,
 });
+export const selectTimer = (state: any) => {
+  state.countries.timer;
+};
 
 export default countriesSlice.reducer;

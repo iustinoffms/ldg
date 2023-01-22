@@ -50,10 +50,14 @@ a {
   }
 }
 
-.cinci-sute {
-  border: 3px solid red;
+.order-1 {
+  border: 1px solid red;
 }
 
-.xxx {
-  border: 5px solid red;
+.order-2 {
+  border: 1px solid green;
+}
+
+.order-3 {
+  border: 1px solid blue;
 }

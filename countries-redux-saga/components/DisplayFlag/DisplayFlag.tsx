@@ -8,8 +8,12 @@ import {
   increase,
   addAnswer,
   selectAnswers,
+  setScore,
+  startTimer,
 } from "../../features/countriesSlice";
 import _ from "lodash";
+import { useRouter } from "next/router";
+import { END } from "redux-saga";
 
 const DisplayFlag = () => {
   const countries = useSelector(selectCountries);
@@ -19,6 +23,8 @@ const DisplayFlag = () => {
   const counter = useSelector((state: any) => state.countries.counter);
   const answers = useSelector(selectAnswers);
   const dispatch = useDispatch();
+  console.log(countries);
+  const { push } = useRouter();
 
   console.log({ countries, optionOneCountries, optionTwoCountries });
 
@@ -31,13 +37,32 @@ const DisplayFlag = () => {
   const increaseStopCondition = counter === countries.length - 1;
   const disableButtons = answers.length === countries.length;
 
+  let reordered = [];
+
+  React.useEffect(() => {
+    dispatch(startTimer());
+  }, []);
+
+  console.log(answers);
+
   const answerAndNextFlag = (e: any) => {
     if (!increaseStopCondition) {
+      // dispatch(END);
       dispatch(increase());
     }
     dispatch(addAnswer(e.target.value));
   };
 
+  const seeTheResults = () => {
+    push("/results");
+
+    const finalResults = countries.filter(
+      (country: any, index: number) => country.name === answers[index]
+    );
+
+    console.log(finalResults);
+    // dispatch(setScore(finalResults.length));
+  };
   if (countries.length === 0) return null;
 
   return (
@@ -85,6 +110,10 @@ const DisplayFlag = () => {
           >
             {optionTwoCountries[counter].name}
           </button>
+        </div>
+
+        <div className="border-2 text-center">
+          <button onClick={seeTheResults}>see the results</button>
         </div>
       </div>
     </>

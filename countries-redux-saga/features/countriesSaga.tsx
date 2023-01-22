@@ -5,8 +5,12 @@ import {
   PutEffect,
   SelectEffect,
   takeLatest,
+  takeEvery,
   select,
   delay,
+  putResolve,
+  take,
+  TakeEffect,
 } from "redux-saga/effects";
 import axios from "axios";
 import {
@@ -19,8 +23,11 @@ import {
   getOceaniaCountriesRequest,
   getOceaniaCountriesSuccess,
   getOceaniaCountriesFailure,
+  startTimer,
+  selectTimer,
+  stopTimer,
+  increase,
 } from "./countriesSlice";
-import pickRandomCountries from "../utils/pickRandomCountries";
 import { selectVersion } from "./countriesSlice";
 import { Regions } from "../components/PlayGame/PlayGame";
 import _ from "lodash";
@@ -62,8 +69,6 @@ function* fetchCountries(): Generator<
 }
 
 function fetchRegionCountriesApi(region: string) {
-  console.log(region);
-  console.log("in the fetch countries");
   return axios
     .get(`https://restcountries.com/v2/region/${region}`)
     .then(({ data }) => ({ regionCountries: data }));
@@ -72,6 +77,8 @@ function fetchRegionCountriesApi(region: string) {
 function* fetchRegionCountries({
   payload,
 }: any): Generator<CallEffect | PutEffect | SelectEffect, void, any> {
+  //the payload is the region sent as payload from the dispatched getRegionCountriesRequest
+
   const version = yield select(selectVersion);
 
   if (payload === Regions.OCEANIA || payload === Regions.ALL_COUNTRIES) {
@@ -128,7 +135,6 @@ function* fetchOceaniaCountries(): Generator<
     const pickAmericasCountries = americasCountries.slice(0, version + 10);
 
     const versionRandomCountries = yield call(_.shuffle, pickOceaniaCountries);
-
     const randomizeAmericasCountries = yield call(
       _.shuffle,
       pickAmericasCountries
@@ -146,10 +152,33 @@ function* fetchOceaniaCountries(): Generator<
   }
 }
 
+function* workerStartTimer(): Generator<
+  CallEffect | PutEffect | SelectEffect,
+  void,
+  any
+> {
+  let timer: number = yield select(selectTimer);
+  console.log(timer);
+  yield delay(1000);
+  timer--;
+  if (timer < 0) {
+    yield put(stopTimer(timer));
+    yield put(increase());
+  }
+}
+
+//watcher saga
+
 function* countriesSaga() {
   yield takeLatest(getCountriesRequest, fetchCountries);
+
+  //getRegionCountriesRequest has a payload === region
+  //this payload is passed to the fetchRegionCountries
+  //takeLatest(dispatchedAction.type, saga, ...args)
+  // args must be an array
   yield takeLatest(getRegionCountriesRequest, fetchRegionCountries);
   yield takeLatest(getOceaniaCountriesRequest, fetchOceaniaCountries);
+  yield takeLatest(startTimer, workerStartTimer);
 }
 
 export default countriesSaga;

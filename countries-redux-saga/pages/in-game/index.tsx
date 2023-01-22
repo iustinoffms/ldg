@@ -7,7 +7,6 @@ import {
   getCountriesRequest,
   getOceaniaCountriesRequest,
   getRegionCountriesRequest,
-  selectCountries,
   selectRequestStatus,
 } from "../../features/countriesSlice";
 import { Regions } from "../../components/PlayGame/PlayGame";
