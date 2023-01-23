@@ -36,6 +36,7 @@ import {
 } from "./countriesSlice";
 
 import { Regions } from "../components/PlayGame/PlayGame";
+import { TIMEOUT_IN_SECONDS } from "../utils/constants";
 
 const APIS = {
   fetchCountriesApi() {
@@ -168,7 +169,7 @@ function* watchAnswerRequest(): Generator<
 > {
   const raceResult = yield race({
     answered: take(addAnswer),
-    timeIsUp: delay(10 * 1000),
+    timeIsUp: delay(TIMEOUT_IN_SECONDS * 1000),
   });
 
   if (raceResult.timeIsUp) {

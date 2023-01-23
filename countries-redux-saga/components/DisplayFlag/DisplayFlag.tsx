@@ -11,6 +11,7 @@ import {
   selectVersion,
 } from "../../features/countriesSlice";
 import Button from "../Button/Button";
+import { TIMEOUT_IN_SECONDS } from "../../utils/constants";
 
 const widths: Record<number, string> = {
   0: "w-[0%]",
@@ -34,11 +35,9 @@ const DisplayFlag = () => {
   const { options, currentCountry, counter } =
     useSelector(selectFlagScreenData);
 
-  const [timer, setTimer] = React.useState<number>(10);
+  const [timer, setTimer] = React.useState<number>(TIMEOUT_IN_SECONDS);
 
   const showSeeTheResults = answers.length === version;
-
-  const disableButtons = counter > 9;
 
   const answerAndNextFlag = (e: any) => {
     dispatch(addAnswer(e.target.value));
@@ -90,7 +89,6 @@ const DisplayFlag = () => {
               className="flex-1"
               value={options[0]?.name}
               onClick={answerAndNextFlag}
-              disabled={disableButtons}
             >
               {options[0]?.name}
             </Button>
@@ -98,7 +96,6 @@ const DisplayFlag = () => {
               className="flex-1"
               value={options[1]?.name}
               onClick={answerAndNextFlag}
-              disabled={disableButtons}
             >
               {options[1]?.name}
             </Button>
@@ -106,7 +103,6 @@ const DisplayFlag = () => {
               className="flex-1"
               value={options[2]?.name}
               onClick={answerAndNextFlag}
-              disabled={disableButtons}
             >
               {options[2]?.name}
             </Button>

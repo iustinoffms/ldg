@@ -19,20 +19,18 @@ export enum GameVersion {
 }
 const PlayGame = () => {
   return (
-    <>
-      <div className="grid gap-20 grid-cols-3 mt-10">
-        <VersionButton version={GameVersion.TEN_COUNTRIES} disabled={false} />
-        <VersionButton version={GameVersion.TWENTY_COUNTRIES} disabled={true} />
-        <VersionButton version={GameVersion.THIRTY_COUNTRIES} disabled={true} />
+    <div className="grid gap-20 grid-cols-3 ">
+      <VersionButton version={GameVersion.TEN_COUNTRIES} disabled={false} />
+      <VersionButton version={GameVersion.TWENTY_COUNTRIES} disabled={true} />
+      <VersionButton version={GameVersion.THIRTY_COUNTRIES} disabled={true} />
 
-        <PlayButton region={Regions.ALL_COUNTRIES} />
-        <PlayButton region={Regions.ASIA} />
-        <PlayButton region={Regions.EUROPE} />
-        <PlayButton region={Regions.OCEANIA} />
-        <PlayButton region={Regions.AMERICAS} />
-        <PlayButton region={Regions.AFRICA} />
-      </div>
-    </>
+      <PlayButton region={Regions.ALL_COUNTRIES} />
+      <PlayButton region={Regions.ASIA} />
+      <PlayButton region={Regions.EUROPE} />
+      <PlayButton region={Regions.OCEANIA} />
+      <PlayButton region={Regions.AMERICAS} />
+      <PlayButton region={Regions.AFRICA} />
+    </div>
   );
 };
 
