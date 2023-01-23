@@ -2,7 +2,9 @@ import _ from "lodash";
 import Image from "next/image";
 import * as React from "react";
 import { useRouter } from "next/router";
+import { RxCaretLeft } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   addAnswer,
   answerRequest,
@@ -30,8 +32,10 @@ const widths: Record<number, string> = {
 const DisplayFlag = () => {
   const dispatch = useDispatch();
   const { push } = useRouter();
+
   const version = useSelector(selectVersion);
   const answers = useSelector(selectAnswers);
+
   const { options, currentCountry, counter } =
     useSelector(selectFlagScreenData);
 
@@ -61,6 +65,15 @@ const DisplayFlag = () => {
 
   return (
     <>
+      <button
+        onClick={() => {
+          push("/");
+        }}
+        className="flex self-start font-extrabold text-4xl p-2 ml-4 text-text rounded"
+      >
+        <RxCaretLeft />
+      </button>
+
       <div className="flex flex-col gap-8 max-w-screen-2xl">
         <h2 className="text-5xl text-center  text-title font-bold ">
           What country is this ?

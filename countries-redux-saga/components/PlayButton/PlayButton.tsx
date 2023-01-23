@@ -1,5 +1,5 @@
-import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+
 import Button from "../Button/Button";
 
 interface PlayButtonProps {
@@ -9,6 +9,7 @@ interface PlayButtonProps {
 const PlayButton = (props: PlayButtonProps) => {
   const { region } = props;
   const { push } = useRouter();
+
   const playButtonHandler = () => {
     push(`/in-game?region=${region}`);
   };

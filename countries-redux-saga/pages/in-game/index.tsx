@@ -2,7 +2,6 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
-import DisplayFlag from "../../components/DisplayFlag/DisplayFlag";
 import {
   getCountriesRequest,
   getOceaniaCountriesRequest,
@@ -10,6 +9,7 @@ import {
   selectRequestStatus,
 } from "../../features/countriesSlice";
 import { Regions } from "../../components/PlayGame/PlayGame";
+import DisplayFlag from "../../components/DisplayFlag/DisplayFlag";
 import BeforePlayDisplay from "../../components/BeforePlayDisplay/BeforePlayDisplay";
 
 const InGame = () => {
@@ -19,7 +19,7 @@ const InGame = () => {
 
   const dispatch = useDispatch();
 
-  const getTheList = React.useCallback(
+  const getCountriesList = React.useCallback(
     (region: string) => {
       if (region === Regions.ALL_COUNTRIES) {
         dispatch(getCountriesRequest());
@@ -37,8 +37,8 @@ const InGame = () => {
 
   React.useEffect(() => {
     if (!region) return;
-    getTheList(region);
-  }, [region, getTheList]);
+    getCountriesList(region);
+  }, [region, getCountriesList]);
 
   if (isLoading) {
     return <BeforePlayDisplay isLoading={isLoading} error={error} />;

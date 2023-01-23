@@ -3,26 +3,28 @@ import { useDispatch } from "react-redux";
 
 import { setVersion } from "../../features/countriesSlice";
 import Button from "../Button/Button";
-import styles from "./VersionButton.module.css";
 
 interface VersionButtonProps {
   version: number;
   disabled?: boolean;
 }
 const VersionButton = (props: VersionButtonProps) => {
-  //improvements needed over here
-  const [bgColor, setBgColor] = React.useState<any>("version-button");
-
   const { version, disabled } = props;
+  const [versionBgColor, setVersionBgColor] = React.useState<string>("");
   const dispatch = useDispatch();
+
   const versionButtonHandler = () => {
     dispatch(setVersion(Number(version)));
-    setBgColor("selected-background-color");
+    setVersionBgColor("bg-text");
   };
 
   return (
-    <Button disabled={disabled} onClick={versionButtonHandler}>
-      Choose {version} game{" "}
+    <Button
+      disabled={disabled}
+      onClick={versionButtonHandler}
+      versionBgColor={versionBgColor}
+    >
+      Choose {version} countries version
     </Button>
   );
 };
