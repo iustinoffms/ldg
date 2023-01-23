@@ -1,9 +1,11 @@
-import React from "react";
+import * as React from "react";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
+
 import Button from "../../components/Button/Button";
 import { selectAnswers, selectCountries } from "../../features/countriesSlice";
-import { useRouter } from "next/router";
-import Image from "next/image";
+import Link from "next/link";
 
 const Results = () => {
   const countries = useSelector(selectCountries);
@@ -31,12 +33,14 @@ const Results = () => {
             key={country.name}
           >
             <div className="relative h-full">
-              <Image
-                src={country.flag}
-                alt={country.name}
-                fill
-                style={{ objectFit: "cover" }}
-              />
+              <Link href={`/details?${country.name}`}>
+                <Image
+                  src={country.flag}
+                  alt={country.name}
+                  fill
+                  style={{ objectFit: "cover" }}
+                />
+              </Link>
             </div>
             <br></br>
             <span className="text-text">Correct answer: {country.name}</span>
