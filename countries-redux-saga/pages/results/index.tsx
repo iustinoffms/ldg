@@ -33,7 +33,7 @@ const Results = () => {
             key={country.name}
           >
             <div className="relative h-full">
-              <Link href={`/details?${country.name}`}>
+              <Link href={`/details?country=${country.name}`}>
                 <Image
                   src={country.flag}
                   alt={country.name}
