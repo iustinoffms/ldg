@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import countriesReducer from "../features/countriesSlice";
-import createSagaMiddleware from "@redux-saga/core";
+import createSagaMiddleware from "redux-saga";
 import logger from "redux-logger";
 import countriesSaga from "../features/countriesSaga";
 

@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@next/font": "^13.1.4",
-    "@redux-saga/core": "^1.2.2",
     "@reduxjs/toolkit": "^1.9.1",
     "@types/lodash": "^4.14.191",
     "axios": "^1.2.3",
@@ -25,7 +24,6 @@
     "redux": "^4.2.0",
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.2.2",
-    "redux-saga-effects": "^1.1.0",
     "saga": "^4.0.0-alpha",
     "underscore": "^1.13.6"
   },
