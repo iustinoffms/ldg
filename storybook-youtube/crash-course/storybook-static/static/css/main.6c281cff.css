@@ -1,0 +1,60 @@
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.primary {
+  background-color: blue;
+}
+.secondary {
+  background-color: grey;
+}
+.success {
+  background-color: greenyellow;
+}
+.danger {
+  background-color: red;
+}
+
+button {
+  border: 3px solid red;
+  width: 200px;
+  font-weight: 900;
+  background-color: blue;
+  padding: 2rem;
+}
+
+.input {
+  border-radius: 10px;
+  color: black;
+  border: 1px solid red;
+  box-shadow: green;
+}
+
+.small {
+  font-size: 16px;
+  color: red;
+}
+.medium {
+  font-size: 26px;
+  color: blue;
+}
+.large {
+  font-size: 36px;
+  color: green;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+
+/*# sourceMappingURL=main.6c281cff.css.map*/
